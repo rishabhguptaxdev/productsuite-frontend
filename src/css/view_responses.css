@@ -1,0 +1,123 @@
+body {
+	font-family: "Arial", sans-serif;
+	background-color: #f5f7fa;
+	margin: 0;
+	padding: 0;
+}
+
+.responses-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: white;
+	color: black;
+	margin: 30px;
+	border-radius: 10px;
+	padding: 20px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	width: 90%;
+	max-width: 1200px;
+}
+
+.back-button {
+	align-self: flex-start;
+	cursor: pointer;
+	color: #007bff;
+	font-size: 1.2rem;
+	margin-bottom: 20px;
+}
+
+.responses-container h1 {
+	font-size: 2rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.survey-details {
+	width: 100%;
+}
+
+.survey-details .table {
+	margin-bottom: 20px;
+	width: 100%;
+}
+
+.survey-details h2 {
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.survey-details p {
+	font-size: 1rem;
+	color: #555;
+}
+
+.status {
+	padding: 0.2rem 0.5rem;
+	border-radius: 0.2rem;
+}
+
+.status.active {
+	background-color: #28a745;
+	color: white;
+}
+
+.status.inactive {
+	background-color: #dc3545;
+	color: white;
+}
+
+.accordion {
+	width: 100%;
+	background: white;
+	border-radius: 10px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	color: #333;
+	margin-top: 20px;
+}
+
+.accordion-item {
+	border: none;
+}
+
+.accordion-header {
+	background: #f8f9fa;
+	color: black;
+	font-weight: bold;
+}
+
+.accordion-button {
+	background: #ffffff;
+	color: black;
+	border: none;
+	outline: none;
+	box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+	background: gray;
+	color: white;
+}
+
+.accordion-body {
+	background: #f5f7fa;
+	color: #333;
+	padding: 20px;
+}
+
+.question-response {
+	margin-bottom: 10px;
+}
+
+.survey-info {
+	text-align: left;
+	margin-top: 20px;
+}
+
+.answer {
+	background-color: white;
+	padding: 5px;
+	border-radius: 5px;
+}

@@ -1,0 +1,7 @@
+.thank-you-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: 10px;
+	text-align: center;
+}
