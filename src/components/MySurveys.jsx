@@ -8,9 +8,12 @@ import {
 	faArrowUpRightFromSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import ViewResponses from "./ViewResponses";
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 const frontendbaseurl = process.env.REACT_APP_FRONTEND_URL;
+
 
 function MySurveys() {
 	const [surveys, setSurveys] = useState([]);
@@ -66,7 +69,7 @@ function MySurveys() {
 	) : (
 		<div className="my-surveys">
 			<h1>Surveys</h1>
-
+			<ToastContainer />
 			<table className="table">
 				<thead>
 					<tr>
@@ -98,9 +101,14 @@ function MySurveys() {
 								<FontAwesomeIcon
 									className="copyLink"
 									onClick={() =>
+									{
 										navigator.clipboard.writeText(
 											`${frontendbaseurl}/take_survey/${survey._id}`
 										)
+										toast.info("Link copied to clipboard!", {
+											position: "top-right", 
+										});
+									}
 									}
 									icon={faLink}
 									size="lg"
