@@ -50,7 +50,6 @@ function ViewResponses() {
 				className="back-button"
 				onClick={() => {
 					window.history.back();
-					window.history.back();
 				}}
 			>
 				<FontAwesomeIcon icon={faArrowLeft} /> Back

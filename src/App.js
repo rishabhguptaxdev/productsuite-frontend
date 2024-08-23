@@ -12,7 +12,7 @@ import ViewResponses from "./components/ViewResponses";
 import LandingPage from "./components/LandingPage";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import ProtectedRoute from "./components/ProtectedRoute";
+import PrivateRoute from "./components/PrivateRoute";
 
 function DashboardWrapper() {
 	const location = useLocation();
@@ -23,26 +23,19 @@ function DashboardWrapper() {
 }
 
 function App() {
-	return (
-		<Router>
-			<Routes>
-				<Route path="/" element={<LandingPage />} />
-				{/* <Route path="/" element={<Home />} /> */}
-				<Route
-					path="/dashboard"
-					element={<ProtectedRoute element={DashboardWrapper} />}
-				/>
-				<Route path="/take_survey/:id" element={<TakeSurvey />} />
-				<Route path="/thank-you" element={<ThankYou />} />
-				<Route
-					path="/survey/:id/responses"
-					element={<ProtectedRoute element={ViewResponses} />}
-				/>
-				<Route path="/login" element={<Login />} />
-				<Route path="/signup" element={<Signup />} />
-			</Routes>
-		</Router>
-	);
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/dashboard" element={<PrivateRoute><DashboardWrapper /></PrivateRoute>} />
+        <Route path="/take_survey/:id" element={<TakeSurvey />} />
+        <Route path="/thank-you" element={<ThankYou />} />
+        <Route path="/survey/:id/responses" element={<ViewResponses />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

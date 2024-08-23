@@ -1,28 +1,33 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import "../css/landingPage.css";
-import { useDispatch } from "react-redux";
-import { login } from "../redux/auth/authSlice";
 
 const LandingPage = () => {
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
-	useEffect(() => {
-		if (localStorage.getItem("token")) {
-			dispatch(login(localStorage.getItem("token")));
-			navigate("/dashboard");
-		}
-	});
+  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
+  const navigate = useNavigate();
 
-	return (
-		<div className="landing-container">
-			<h1>Welcome to Interactive Survey</h1>
-			<div className="button-group">
-				<Link to="/login">Login</Link>
-				<Link to="/signup">Signup</Link>
-			</div>
-		</div>
-	);
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard"); // Redirect authenticated users to dashboard
+    }
+  }, [isAuthenticated, navigate]);
+
+  if(isLoading && !isAuthenticated){
+	return <div>Loading...</div>;
+  }
+
+
+  return (
+    !isAuthenticated && (
+      <div className="landing-container">
+        <h1>Welcome to Interactive Survey</h1>
+        <div className="button-group">
+          <Link onClick={() => loginWithRedirect()}>Enter into APP</Link>
+        </div>
+      </div>
+    )
+  );
 };
 
 export default LandingPage;
