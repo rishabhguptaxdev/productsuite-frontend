@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import "../css/landingPage.css";
+import Loader from "./Loader";
 
 const LandingPage = () => {
   const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
@@ -14,12 +15,11 @@ const LandingPage = () => {
   }, [isAuthenticated, navigate]);
 
   if(isLoading && !isAuthenticated){
-	return <div>Loading...</div>;
+	return <Loader />
   }
 
-
   return (
-    !isAuthenticated && (
+    !isAuthenticated && !isLoading && (
       <div className="landing-container">
         <h1>Welcome to Interactive Survey</h1>
         <div className="button-group">

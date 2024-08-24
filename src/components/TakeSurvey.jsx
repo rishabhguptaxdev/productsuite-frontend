@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/take_survey.css";
+import Loader from "./Loader";
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 
 function TakeSurvey() {
@@ -126,7 +127,7 @@ function TakeSurvey() {
 			</div>
 		);
 
-	if (!survey) return <div>Loading...</div>;
+	if (!survey) return <Loader />;
 
 	return (
 		<div className="survey-container">
