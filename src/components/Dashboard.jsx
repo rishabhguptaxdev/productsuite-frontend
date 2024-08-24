@@ -42,8 +42,8 @@ function Dashboard({ initialView }) {
 		  logout({ returnTo: window.location.origin });
 		}
 	  } catch (error) {
-		console.error("Error fetching token:", error);
-		logout({ returnTo: window.location.origin });
+      console.error("Error fetching token:", error);
+      logout({ returnTo: window.location.origin });
 	  }
 	};
   
