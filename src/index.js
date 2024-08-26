@@ -9,6 +9,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Auth0Provider
+      useRefreshTokens={true}
+      cacheLocation="localstorage"
       domain={process.env.REACT_APP_AUTH_DOMAIN}
       clientId={process.env.REACT_APP_CLIENT_ID}
       authorizationParams={{

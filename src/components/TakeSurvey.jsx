@@ -106,12 +106,12 @@ function TakeSurvey() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const data = await saveResponses();
-		setSurvey(data.updatedSurvey);
-		const newResponses = data.updatedSurvey.questions.map(
+		setSurvey(data?.updatedSurvey);
+		const newResponses = data?.updatedSurvey.questions.map(
 			(q) => q.response || ""
 		);
 		setResponses(newResponses);
-		setIsLastResponse(data.isLastResponse);
+		setIsLastResponse(data?.isLastResponse);
 
 		if (data.isSurveyCompleted) {
 			navigate("/thank-you"); // Redirect to Thank You page
