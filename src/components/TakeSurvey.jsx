@@ -113,7 +113,7 @@ function TakeSurvey() {
 		setResponses(newResponses);
 		setIsLastResponse(data?.isLastResponse);
 
-		if (data.isSurveyCompleted) {
+		if (data?.isSurveyCompleted) {
 			navigate("/thank-you"); // Redirect to Thank You page
 		}
 	};
