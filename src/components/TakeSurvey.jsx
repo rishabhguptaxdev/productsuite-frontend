@@ -11,6 +11,7 @@ function TakeSurvey() {
 	const [survey, setSurvey] = useState(null);
 	const [responses, setResponses] = useState([]);
 	const [isLastResponse, setIsLastResponse] = useState(false);
+	const [nextQuestionFetched, setNextQuestionFetched] = useState(true);
 	const hasFetched = useRef(false);
 
 	const fetchSurvey = async () => {
@@ -87,7 +88,7 @@ function TakeSurvey() {
 		} else {
 			fetchSurvey();
 		}
-	}, []);
+	});
 
 	const saveResponses = async () => {
 		try {
@@ -105,7 +106,9 @@ function TakeSurvey() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setNextQuestionFetched(false)
 		const data = await saveResponses();
+		setNextQuestionFetched(true)
 		setSurvey(data?.updatedSurvey);
 		const newResponses = data?.updatedSurvey.questions.map(
 			(q) => q.response || ""
@@ -151,7 +154,7 @@ function TakeSurvey() {
 				<button
 					type="submit"
 					id="actionBtn"
-					disabled={responses.some((response) => response === "")}
+					disabled={nextQuestionFetched && (responses.some((response) => response === ""))}
 				>
 					{isLastResponse ? "Submit" : "Next"}
 				</button>

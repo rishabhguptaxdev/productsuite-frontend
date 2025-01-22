@@ -16,7 +16,10 @@ function CreateSurvey() {
 
 	const checkFormCompletion = () => {
 		setIsFormComplete(
-			title.trim() !== "" && firstQuestion.trim() !== "" && maxQuestions > 0
+			title.trim() !== "" &&
+				firstQuestion.trim() !== "" &&
+				description.trim() !== "" &&
+				maxQuestions > 0
 		);
 	};
 
@@ -70,14 +73,17 @@ function CreateSurvey() {
 					/>
 				</div>
 				<div className="form-group">
-					<label htmlFor="surveyDescription">Description</label>
+					<label htmlFor="surveyDescription">
+						About the Survey <span>*</span>
+					</label>
 					<input
 						type="text"
 						id="surveyDescription"
 						value={description}
-						placeholder="Write about the survey"
+						placeholder="Write in detail what exactly you are creating this survey about"
 						onChange={(e) => setDescription(e.target.value)}
 						onInput={checkFormCompletion}
+						required
 					/>
 				</div>
 				<div className="form-group">
@@ -111,30 +117,28 @@ function CreateSurvey() {
 						</option>
 						<option value="5">5</option>
 						<option value="10">10</option>
-						<option value="15">15</option>
-						<option value="20">20</option>
 					</select>
+					<div className="row">
+						<div className="col p-3"></div>
+
+						<div className="col p-3">
+							<button type="reset" className="btn btn-outline-primary">
+								Clear All
+							</button>
+						</div>
+
+						<div className="col p-3">
+							<button
+								className="btn btn-primary"
+								type="submit"
+								disabled={!isFormComplete}
+							>
+								Create Survey
+							</button>
+						</div>
+					</div>
 				</div>
 				<div className="buttons container overflow-hidden text-center"></div>
-				<div className="row">
-					<div className="col p-3"></div>
-
-					<div className="col p-3">
-						<button type="reset" className="btn btn-outline-primary">
-							Clear All
-						</button>
-					</div>
-
-					<div className="col p-3">
-						<button
-							className="btn btn-primary"
-							type="submit"
-							disabled={!isFormComplete}
-						>
-							Create Survey
-						</button>
-					</div>
-				</div>
 			</form>
 		</div>
 	);

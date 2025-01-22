@@ -1,39 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/survey_created.css"; // Ensure this path is correct
 import GreenTick from "../images/svgs/greenTick.svg";
+import { useNavigate } from "react-router-dom";
 
 function SurveyCreated() {
+
+	const [linkCopied, setLinkCopied] = useState(false)
+  	const navigate = useNavigate();
+
 	return (
-		<div className="survey-created-container">
-			<img src={GreenTick} alt="Green tick" className="green-tick-icon" />
-			<h1>Your survey link has been successfully generated.</h1>
-			<p>Copy the link and share it among users</p>
+		<>
+			<div className="survey-created-container">
+				<img src={GreenTick} alt="Green tick" className="green-tick-icon" />
+				<h5 style={{fontWeight:'bold'}}>Your survey link has been successfully generated.</h5>
+				<p>Copy the link and share it with others</p>
 
-			<div class="input-group mb-3">
-				<input
-					readOnly
-					type="text"
-					class="form-control"
-					value={sessionStorage.getItem("surveyLink")}
-				/>
-				<button
-					class="btn btn-outline-secondary"
-					type="button"
-					onClick={() =>
-						navigator.clipboard.writeText(sessionStorage.getItem("surveyLink"))
-					}
-				>
-					Copy Link
-				</button>
-			</div>
+				<div class="row input-group mb-3">
+					<div className="col-8">
+						<input
+							readOnly
+							type="text"
+							class="form-control"
+							value={sessionStorage.getItem("surveyLink")}
+						/>
+					</div>
 
-			<p>
-				Lorem Ipsume orto lore{" "}
-				<a href="#" className="create-another-survey-link">
+					{/* <div className="col-"></div> */}
+
+					<div className="col-4">
+						<button
+							style={{backgroundColor:linkCopied ? 'green' : 'blue', color:'white'}}
+							class="btn btn-outline-secondary"
+							type="button"
+							onClick={() => {
+								setLinkCopied(true);
+								navigator.clipboard.writeText(sessionStorage.getItem("surveyLink"))
+							}
+							}
+						>
+							{linkCopied ? 'Copied' : 'Copy Link'}
+						</button>
+					</div>
+				</div>
+				
+				<h6 onClick={() => {navigate('/')}} className="create-another-survey-link">
 					Create Another Survey
-				</a>
-			</p>
-		</div>
+				</h6>
+			</div>
+		</>
 	);
 }
 

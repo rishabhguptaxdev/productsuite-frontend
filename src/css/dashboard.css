@@ -16,6 +16,8 @@ body {
 }
 
 header {
+	position: sticky !important;
+	top: 0;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -66,4 +68,95 @@ nav .account-icon {
 	flex: 1;
 	padding: 20px;
 	background: #f2f2f2;
+}
+
+.active {
+	font-weight: 300;
+	color: white !important;
+}
+
+.profile-dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.profile-toggle {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	padding: 8px 12px;
+	background-color: #f9f9f9;
+	border-radius: 4px;
+	transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+	font-size: 14px;
+	color: #333;
+}
+
+.profile-toggle:hover {
+	background-color: #f0f0f0;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+	position: absolute;
+	top: 100%; /* Stick to the bottom of the profile-toggle */
+	right: 0;
+	background: #f9f9f9; /* Match the header background */
+	border: 1px solid #ddd; /* Subtle border */
+	border-radius: 4px;
+	box-shadow: none; /* Remove heavy shadow */
+	padding: 5px 0;
+	width: 150px; /* Adjust width */
+	z-index: 1000;
+	animation: fadeInSlideDown 0.2s ease-in-out;
+	font-size: 14px;
+}
+
+/* Dropdown Item */
+.dropdown-item {
+	padding: 10px 15px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	font-size: 14px;
+	color: #333;
+	transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item:hover {
+	background-color: #f0f0f0;
+}
+
+/* Profile Dropdown */
+.profile-dropdown {
+	position: relative;
+}
+
+/* Profile Toggle */
+.profile-toggle {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	padding: 8px 12px;
+	background-color: #fff;
+	border-radius: 4px;
+	font-size: 14px;
+	color: #333;
+}
+
+.profile-toggle:hover {
+	background-color: #f0f0f0;
+}
+
+/* Subtle Animation for Dropdown */
+@keyframes fadeInSlideDown {
+	from {
+		opacity: 0;
+		transform: translateY(-5px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
