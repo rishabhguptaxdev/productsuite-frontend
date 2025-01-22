@@ -40,7 +40,6 @@ function CreateSurvey() {
 					},
 				}
 			);
-			console.log();
 
 			sessionStorage.setItem(
 				"surveyLink",
@@ -76,21 +75,20 @@ function CreateSurvey() {
 					<label htmlFor="surveyDescription">
 						About the Survey <span>*</span>
 					</label>
-					<input
-						type="text"
+					<textarea
 						id="surveyDescription"
 						value={description}
 						placeholder="Write in detail what exactly you are creating this survey about"
 						onChange={(e) => setDescription(e.target.value)}
 						onInput={checkFormCompletion}
 						required
-					/>
+					></textarea>
 				</div>
 				<div className="form-group">
 					<label htmlFor="surveyQuestion">
 						First Question <span>*</span>
 					</label>
-					<input
+					<textarea
 						type="text"
 						id="surveyQuestion"
 						value={firstQuestion}
@@ -98,7 +96,7 @@ function CreateSurvey() {
 						onChange={(e) => setFirstQuestion(e.target.value)}
 						onInput={checkFormCompletion}
 						required
-					/>
+					></textarea>
 				</div>
 
 				<div className="form-group">
@@ -119,10 +117,18 @@ function CreateSurvey() {
 						<option value="10">10</option>
 					</select>
 					<div className="row">
-						<div className="col p-3"></div>
-
 						<div className="col p-3">
-							<button type="reset" className="btn btn-outline-primary">
+							<button
+								type="button"
+								className="btn btn-outline-primary"
+								onClick={() => {
+									setTitle("");
+									setDescription("");
+									setFirstQuestion("");
+									setMaxQuestions(5);
+									setIsFormComplete(false);
+								}}
+							>
 								Clear All
 							</button>
 						</div>
@@ -136,6 +142,7 @@ function CreateSurvey() {
 								Create Survey
 							</button>
 						</div>
+						<div className="col p-3"></div>
 					</div>
 				</div>
 				<div className="buttons container overflow-hidden text-center"></div>

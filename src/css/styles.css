@@ -103,3 +103,12 @@ input:checked + .slider:before {
 .copyLink:focus {
 	cursor: pointer;
 }
+
+/* Add pointer cursor and hover effect for rows */
+.clickable-row {
+	cursor: pointer;
+}
+
+.clickable-row:hover {
+	background-color: #f9f9f9; /* Subtle highlight on hover */
+}

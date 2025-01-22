@@ -3,17 +3,13 @@ import axios from "axios";
 import "../css/styles.css";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	faLink,
-	faArrowUpRightFromSquare,
-} from "@fortawesome/free-solid-svg-icons";
+import { faLink } from "@fortawesome/free-solid-svg-icons";
 import ViewResponses from "./ViewResponses";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 const frontendbaseurl = process.env.REACT_APP_FRONTEND_URL;
-
 
 function MySurveys() {
 	const [surveys, setSurveys] = useState([]);
@@ -36,16 +32,13 @@ function MySurveys() {
 		try {
 			await axios.patch(
 				`${backendbaseurl}/survey/${surveyId}/status`,
-				{
-					isClosed: !currentStatus,
-				},
+				{ isClosed: !currentStatus },
 				{
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem("token")}`,
 					},
 				}
 			);
-			// Update the local state after successful API call
 			setSurveys((prevSurveys) =>
 				prevSurveys.map((survey) =>
 					survey._id === surveyId
@@ -82,46 +75,53 @@ function MySurveys() {
 				</thead>
 				<tbody>
 					{surveys.map((survey) => (
-						<tr key={survey._id}>
+						<tr
+							key={survey._id}
+							className="clickable-row"
+							onClick={() => {
+								setOpenSurvey(true);
+								sessionStorage.setItem("surveyId", survey._id);
+							}}
+						>
 							<td>{moment(survey.createdDate).format("MMMM D, YYYY")}</td>
 							<td>{moment(survey.createdDate).format("h:mm:ss A")}</td>
 							<td>{survey.title}</td>
 							<td>{survey.responseCount}</td>
 							<td>
+								{/* Toggle Button */}
 								<label className="switch">
 									<input
 										type="checkbox"
 										checked={!survey.isClosed}
+										onClick={(e) => e.stopPropagation()} // Prevent row click
 										onChange={() =>
 											handleToggleChange(survey._id, survey.isClosed)
 										}
 									/>
-									<span className="slider round"></span>
+									<span
+										className="slider round"
+										onClick={(e) => e.stopPropagation()}
+									></span>
 								</label>
-								<FontAwesomeIcon
-									className="copyLink"
-									onClick={() =>
-									{
+								{/* Copy Link Button */}
+								<span
+									className="icon-wrapper"
+									onClick={(e) => {
+										e.stopPropagation(); // Stop the row click
 										navigator.clipboard.writeText(
 											`${frontendbaseurl}/take_survey/${survey._id}`
-										)
+										);
 										toast.info("Link copied to clipboard!", {
-											position: "top-right", 
+											position: "top-right",
 										});
-									}
-									}
-									icon={faLink}
-									size="lg"
-								/>
-								<FontAwesomeIcon
-									className="copyLink"
-									icon={faArrowUpRightFromSquare}
-									size="lg"
-									onClick={() => {
-										setOpenSurvey(true);
-										sessionStorage.setItem("surveyId", survey._id);
 									}}
-								/>
+								>
+									<FontAwesomeIcon
+										className="copyLink"
+										icon={faLink}
+										size="xl"
+									/>
+								</span>
 							</td>
 						</tr>
 					))}
