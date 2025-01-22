@@ -112,3 +112,44 @@ input:checked + .slider:before {
 .clickable-row:hover {
 	background-color: #f9f9f9; /* Subtle highlight on hover */
 }
+
+.my-surveys-page {
+	position: relative; /* Establish a positioning context */
+	margin-top: 20px; /* Add some spacing above */
+}
+
+/* Global Copied Message */
+.copied-message-global {
+	position: fixed; /* Make it fixed to the viewport */
+	top: 20px; /* Place it near the top of the page */
+	left: 50%; /* Center horizontally */
+	transform: translateX(-50%); /* Adjust for centering */
+	background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
+	color: white; /* White text */
+	padding: 10px 20px; /* Padding for better readability */
+	border-radius: 5px; /* Rounded corners */
+	font-size: 14px; /* Text size */
+	font-weight: bold; /* Bold text for emphasis */
+	z-index: 1000; /* Ensure it appears above all elements */
+	animation: fadeInOut 2s forwards; /* Smooth fade-in and fade-out */
+}
+
+/* Fade-in and Fade-out Animation */
+@keyframes fadeInOut {
+	0% {
+		opacity: 0;
+		transform: translateY(-10px); /* Slightly move up */
+	}
+	10% {
+		opacity: 1;
+		transform: translateY(0); /* Slide into place */
+	}
+	90% {
+		opacity: 1;
+		transform: translateY(0); /* Stay visible */
+	}
+	100% {
+		opacity: 0;
+		transform: translateY(-10px); /* Slide up and fade out */
+	}
+}

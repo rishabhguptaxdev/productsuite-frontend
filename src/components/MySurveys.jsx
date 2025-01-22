@@ -5,8 +5,6 @@ import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 import ViewResponses from "./ViewResponses";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 const frontendbaseurl = process.env.REACT_APP_FRONTEND_URL;
@@ -14,6 +12,7 @@ const frontendbaseurl = process.env.REACT_APP_FRONTEND_URL;
 function MySurveys() {
 	const [surveys, setSurveys] = useState([]);
 	const [openSurvey, setOpenSurvey] = useState(false);
+	const [showCopiedMessage, setShowCopiedMessage] = useState(false);
 
 	const loadSurveys = async () => {
 		try {
@@ -26,6 +25,14 @@ function MySurveys() {
 		} catch (error) {
 			console.error("Error loading surveys", error);
 		}
+	};
+
+	const handleCopyLink = (surveyId) => {
+		navigator.clipboard.writeText(`${frontendbaseurl}/take_survey/${surveyId}`);
+		setShowCopiedMessage(true);
+		setTimeout(() => {
+			setShowCopiedMessage(false);
+		}, 2000); // Show for 2 seconds
 	};
 
 	const handleToggleChange = async (surveyId, currentStatus) => {
@@ -60,73 +67,72 @@ function MySurveys() {
 			<ViewResponses />
 		</div>
 	) : (
-		<div className="my-surveys">
-			<h1>Surveys</h1>
-			<ToastContainer />
-			<table className="table">
-				<thead>
-					<tr>
-						<th scope="col">Date</th>
-						<th scope="col">Time</th>
-						<th scope="col">Survey Title</th>
-						<th scope="col">Responses</th>
-						<th scope="col">Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					{surveys.map((survey) => (
-						<tr
-							key={survey._id}
-							className="clickable-row"
-							onClick={() => {
-								setOpenSurvey(true);
-								sessionStorage.setItem("surveyId", survey._id);
-							}}
-						>
-							<td>{moment(survey.createdDate).format("MMMM D, YYYY")}</td>
-							<td>{moment(survey.createdDate).format("h:mm:ss A")}</td>
-							<td>{survey.title}</td>
-							<td>{survey.responseCount}</td>
-							<td>
-								{/* Toggle Button */}
-								<label className="switch">
-									<input
-										type="checkbox"
-										checked={!survey.isClosed}
-										onClick={(e) => e.stopPropagation()} // Prevent row click
-										onChange={() =>
-											handleToggleChange(survey._id, survey.isClosed)
-										}
-									/>
-									<span
-										className="slider round"
-										onClick={(e) => e.stopPropagation()}
-									></span>
-								</label>
-								{/* Copy Link Button */}
-								<span
-									className="icon-wrapper"
-									onClick={(e) => {
-										e.stopPropagation(); // Stop the row click
-										navigator.clipboard.writeText(
-											`${frontendbaseurl}/take_survey/${survey._id}`
-										);
-										toast.info("Link copied to clipboard!", {
-											position: "top-right",
-										});
-									}}
-								>
-									<FontAwesomeIcon
-										className="copyLink"
-										icon={faLink}
-										size="xl"
-									/>
-								</span>
-							</td>
+		<div className="my-surveys-page">
+			{showCopiedMessage && (
+				<div className="copied-message-global">Link copied</div>
+			)}
+			<div className="my-surveys">
+				<h1>Surveys</h1>
+				<table className="table">
+					<thead>
+						<tr>
+							<th scope="col">Date</th>
+							<th scope="col">Time</th>
+							<th scope="col">Survey Title</th>
+							<th scope="col">Responses</th>
+							<th scope="col">Action</th>
 						</tr>
-					))}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{surveys.map((survey) => (
+							<tr
+								key={survey._id}
+								className="clickable-row"
+								onClick={() => {
+									setOpenSurvey(true);
+									sessionStorage.setItem("surveyId", survey._id);
+								}}
+							>
+								<td>{moment(survey.createdDate).format("MMMM D, YYYY")}</td>
+								<td>{moment(survey.createdDate).format("h:mm:ss A")}</td>
+								<td>{survey.title}</td>
+								<td>{survey.responseCount}</td>
+								<td>
+									{/* Toggle Button */}
+									<label className="switch">
+										<input
+											type="checkbox"
+											checked={!survey.isClosed}
+											onClick={(e) => e.stopPropagation()}
+											onChange={() =>
+												handleToggleChange(survey._id, survey.isClosed)
+											}
+										/>
+										<span
+											className="slider round"
+											onClick={(e) => e.stopPropagation()}
+										></span>
+									</label>
+									{/* Copy Link Button */}
+									<span
+										className="icon-wrapper"
+										onClick={(e) => {
+											e.stopPropagation();
+											handleCopyLink(survey._id);
+										}}
+									>
+										<FontAwesomeIcon
+											className="copyLink"
+											icon={faLink}
+											size="xl"
+										/>
+									</span>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
 		</div>
 	);
 }

@@ -55,7 +55,10 @@ function TakeSurvey() {
 					},
 				}
 			);
-			const surveyData = surveyResponse.data;
+			const surveyData = {
+				...surveyResponse.data,
+				...surveyResponse?.data?.surveyId,
+			};
 			setSurvey(surveyData);
 			const savedResponses = surveyData.questions.map((q) => q.response || "");
 			setResponses(savedResponses);
@@ -98,7 +101,7 @@ function TakeSurvey() {
 					responses: responses,
 				}
 			);
-			return res.data;
+			return { ...res.data, ...res.data.surveyId };
 		} catch (error) {
 			console.error("Error saving responses:", error);
 		}
@@ -106,10 +109,14 @@ function TakeSurvey() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setNextQuestionFetched(false)
+		setNextQuestionFetched(false);
 		const data = await saveResponses();
-		setNextQuestionFetched(true)
-		setSurvey(data?.updatedSurvey);
+		setNextQuestionFetched(true);
+		const surveyData = {
+			...data.updatedSurvey,
+			...data?.updatedSurvey?.surveyId,
+		};
+		setSurvey(surveyData);
 		const newResponses = data?.updatedSurvey.questions.map(
 			(q) => q.response || ""
 		);
@@ -135,7 +142,7 @@ function TakeSurvey() {
 	return (
 		<div className="survey-container">
 			<h1>{survey.title}</h1>
-			<p>{survey.description}</p>
+			<p>{survey.description || "des"} </p>
 			<form onSubmit={handleSubmit}>
 				{survey.questions.map((q, index) => (
 					<div key={index} className="question-block">
@@ -154,7 +161,9 @@ function TakeSurvey() {
 				<button
 					type="submit"
 					id="actionBtn"
-					disabled={nextQuestionFetched && (responses.some((response) => response === ""))}
+					disabled={
+						nextQuestionFetched && responses.some((response) => response === "")
+					}
 				>
 					{isLastResponse ? "Submit" : "Next"}
 				</button>
