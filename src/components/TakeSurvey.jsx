@@ -109,22 +109,41 @@ function TakeSurvey() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setNextQuestionFetched(false);
-		const data = await saveResponses();
-		setNextQuestionFetched(true);
-		const surveyData = {
-			...data.updatedSurvey,
-			...data?.updatedSurvey?.surveyId,
-		};
-		setSurvey(surveyData);
-		const newResponses = data?.updatedSurvey.questions.map(
-			(q) => q.response || ""
-		);
-		setResponses(newResponses);
-		setIsLastResponse(data?.isLastResponse);
 
-		if (data?.isSurveyCompleted) {
-			navigate("/thank-you"); // Redirect to Thank You page
+		// Disable the button before the request starts
+		setNextQuestionFetched(false);
+		console.log("Fetching next question, disabling the Next/Submit button...");
+
+		try {
+			// Save responses and fetch the next question
+			const data = await saveResponses();
+
+			// Update survey and responses with the new data
+			const surveyData = {
+				...data.updatedSurvey,
+				...data?.updatedSurvey?.surveyId,
+			};
+			setSurvey(surveyData);
+
+			// Update responses
+			const newResponses = data?.updatedSurvey.questions.map(
+				(q) => q.response || ""
+			);
+			setResponses(newResponses);
+
+			// Update isLastResponse
+			setIsLastResponse(data?.isLastResponse);
+
+			// Redirect if the survey is completed
+			if (data?.isSurveyCompleted) {
+				navigate("/thank-you");
+			}
+		} catch (error) {
+			console.error("Error handling submit:", error);
+		} finally {
+			// Re-enable the button after the response is fetched
+			setNextQuestionFetched(true);
+			console.log("Next question fetched, enabling the Next/Submit button...");
 		}
 	};
 
@@ -162,7 +181,8 @@ function TakeSurvey() {
 					type="submit"
 					id="actionBtn"
 					disabled={
-						nextQuestionFetched && responses.some((response) => response === "")
+						!nextQuestionFetched ||
+						responses.some((response) => response === "")
 					}
 				>
 					{isLastResponse ? "Submit" : "Next"}
