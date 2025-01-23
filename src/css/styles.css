@@ -153,3 +153,19 @@ input:checked + .slider:before {
 		transform: translateY(-10px); /* Slide up and fade out */
 	}
 }
+
+/* Loader styles */
+.loader-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 80vh;
+	color: black;
+	font-weight: 200;
+}
+
+.loader-icon {
+	color: #007bff;
+	margin-bottom: 1rem;
+}

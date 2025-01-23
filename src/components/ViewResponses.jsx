@@ -4,7 +4,7 @@ import { Accordion } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/view_responses.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 
@@ -12,12 +12,12 @@ function ViewResponses() {
 	const id = sessionStorage.getItem("surveyId");
 	const [responses, setResponses] = useState([]);
 	const [surveyDetails, setSurveyDetails] = useState({});
+	const [isLoading, setIsLoading] = useState(true); // Loader state
 
 	useEffect(() => {
 		const fetchSurveyDetails = async () => {
 			try {
 				const response = await axios.get(`${backendbaseurl}/survey/${id}`);
-
 				setSurveyDetails(response.data);
 			} catch (error) {
 				console.error("Error fetching survey details:", error);
@@ -40,9 +40,28 @@ function ViewResponses() {
 			}
 		};
 
-		fetchSurveyDetails();
-		fetchResponses();
+		const fetchData = async () => {
+			setIsLoading(true); // Start loader
+			await Promise.all([fetchSurveyDetails(), fetchResponses()]);
+			setIsLoading(false); // Stop loader
+		};
+
+		fetchData();
 	}, [id]);
+
+	if (isLoading) {
+		return (
+			<div className="loader-container">
+				<FontAwesomeIcon
+					icon={faSpinner}
+					spin
+					size="3x"
+					className="loader-icon"
+				/>
+				<p>Loading survey details...</p>
+			</div>
+		);
+	}
 
 	return (
 		<div className="responses-container">

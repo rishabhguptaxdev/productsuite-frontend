@@ -119,3 +119,20 @@ body {
 	padding: 5px;
 	border-radius: 5px;
 }
+
+/* Loader styles */
+.loader-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 80vh;
+	color: black;
+	font-weight: 200;
+}
+
+.loader-icon {
+	color: #007bff;
+	margin-bottom: 1rem;
+	font-size: 2rem;
+}
