@@ -41,10 +41,6 @@ body {
 	transition: background-color 0.3s;
 }
 
-.btn-primary:hover {
-	background-color: #191e4a;
-}
-
 /* Features Section */
 .features-section {
 	padding: 80px 20px;
