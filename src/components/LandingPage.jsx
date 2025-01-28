@@ -53,7 +53,8 @@ const LandingPage = () => {
 			<section className="hero-section" style={{ paddingTop: "120px" }}>
 				<Container className="py-5">
 					<h1 className="display-4 fw-bold text-center mb-4">
-						Build Insightful <span>AI Powered</span> User Surveys
+						Build Insightful <span>AI Powered</span> <br />
+						User Surveys
 					</h1>
 					<p className="lead text-center text-muted mb-5">
 						Broad Engagement, Talent Questions, Gain Actionable Insights
@@ -64,12 +65,12 @@ const LandingPage = () => {
 						<Col md={8} lg={6}>
 							<Form.Control
 								placeholder="What is the topic of your survey?"
-								className="form-control-lg border-2 py-3"
+								className="form-control-lg border-1 py-3"
 							/>
 						</Col>
 						<Col md="auto">
 							<button
-								className="btn heroSectionCreateSurveyButton btn-lg px-5 py-3 fw-semibold d-flex align-items-center"
+								className="btn heroSectionCreateSurveyButton btn-lg px-5 py-3 fw-semibold d-flex align-items-center justify-content-center"
 								onClick={() => loginWithRedirect()}
 							>
 								<FontAwesomeIcon icon={faRocket} className="me-3" />
@@ -106,11 +107,14 @@ const LandingPage = () => {
 								</div>
 							))}
 						</Col>
-						<Col md={6}>
+						<Col md={6} className="text-center order-md-2">
+							{" "}
+							{/* Added order and text-center */}
 							<img
 								src={SideImage}
 								alt="Steps Visual"
-								className="img-fluid rounded-4 shadow"
+								className="img-fluid rounded-4 shadow mx-auto"
+								style={{ maxWidth: "90%" }}
 							/>
 						</Col>
 					</Row>
@@ -171,7 +175,8 @@ const LandingPage = () => {
 						</h2>
 						<p className="lead text-muted">
 							Discover how our AI tool can transform your workflow and boost
-							productivity. Sign up today and experience the benefits firsthand.
+							productivity. <br /> Sign up today and experience the benefits
+							firsthand.
 						</p>
 						<button
 							className="btn btn-light btn-lg px-6 py-3 fw-bold"
