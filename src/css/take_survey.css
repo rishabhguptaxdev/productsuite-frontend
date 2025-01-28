@@ -52,3 +52,9 @@ button#actionBtn:disabled {
 button#actionBtn {
 	background-color: #191e4a;
 }
+
+@media (max-width: 768px) {
+	.survey-container {
+		width: 95%;
+	}
+}
