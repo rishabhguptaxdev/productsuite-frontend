@@ -1,141 +1,156 @@
-/* General Dark Theme Styles */
-body {
-	font-family: "Arial", sans-serif;
-	margin: 0;
-	padding: 0;
-	background-color: #101010;
-	color: #e0e0e0;
+/* ============== Base Styles ============== */
+.landing-page {
+	font-family: "Inter", sans-serif;
+	line-height: 1.6;
 }
 
-.dark-landing-container {
-	text-align: center;
+/* ============== Spacing Helpers ============== */
+.py-6 {
+	padding: 5rem 0;
+}
+.mb-4 {
+	margin-bottom: 1.5rem;
+}
+.mb-5 {
+	margin-bottom: 2rem;
+}
+.mb-6 {
+	margin-bottom: 3rem;
 }
 
-/* Hero Section */
-.hero-section {
-	background: linear-gradient(135deg, #282828, #1a1a1a);
-	padding: 100px 20px;
-}
-
-.hero-title {
-	font-size: 3rem;
-	font-weight: bold;
-	color: #ffffff;
-}
-
-.hero-subtitle {
-	font-size: 1.2rem;
-	color: #b0b0b0;
-	margin: 20px 0 30px;
+/* ============== Navbar ============== */
+.navbar {
+	padding: 1rem 0;
+	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
 }
 
 .btn-primary {
-	background-color: #1e88e5;
-	color: white;
-	padding: 0.4rem 0.8rem; /* Adjust padding to reduce width */
-	border-radius: 5px;
-	border: none;
-	font-size: 0.9rem; /* Reduced font size */
-	max-width: 120px; /* Optional: limits the button width */
-	text-align: center;
-	transition: background-color 0.3s;
+	background-color: transparent;
+	border-color: #4f46e5;
+	color: #4f46e5;
+	transition: all 0.3s ease;
 }
 
-/* Features Section */
-.features-section {
-	padding: 80px 20px;
-	background-color: #1a1a1a;
+.btn-primary:hover {
+	background-color: #4f46e5;
 }
 
-.section-title {
-	font-size: 2.5rem;
-	margin-bottom: 40px;
-	color: #ffffff;
+/* ============== Hero Section ============== */
+.hero-section h1 {
+	font-size: 2.75rem;
+	line-height: 1.2;
 }
 
-.features-grid {
-	display: flex;
-	justify-content: center;
-	gap: 20px;
-	flex-wrap: wrap;
+.survey-form .form-control {
+	height: 60px;
+	border-radius: 12px;
 }
 
+.survey-form .btn {
+	height: 60px;
+	border-radius: 12px;
+}
+
+/* ============== Steps Section ============== */
+.step-number {
+	width: 50px;
+	height: 50px;
+	font-size: 1.25rem;
+	flex-shrink: 0;
+	background-color: #4f46e5;
+}
+
+/* ============== Features Section ============== */
 .feature-card {
-	background-color: #242424;
-	border-radius: 10px;
-	padding: 30px;
-	width: 300px;
-	text-align: center;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+	background: white;
+	border: 1px solid #e2e8f0;
+	transition: all 0.3s ease;
 }
 
-.feature-icon {
-	color: #1e88e5;
-	margin-bottom: 20px;
-}
-
-/* Testimonials Section */
-.testimonials-section {
-	background-color: #121212;
-	padding: 80px 20px;
-}
-
-.testimonials-grid {
-	display: flex;
-	justify-content: center;
-	gap: 20px;
-	flex-wrap: wrap;
-}
-
-.testimonial-card {
-	background-color: #242424;
-	border-radius: 10px;
-	padding: 20px;
-	width: 300px;
-	text-align: center;
-	color: #b3b3b3;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.testimonial-card h4 {
-	margin-top: 10px;
-	color: #ffffff;
-}
-
-/* CTA Section */
-.cta-section {
-	background: #282828;
+.feature-card:hover {
+	background-color: #181c40;
+	transform: translateY(-5px);
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 	color: white;
-	padding: 60px 20px;
 }
 
-.cta-title {
-	font-size: 2.5rem;
-	margin-bottom: 20px;
+/* Feature card hover effect */
+.feature-card:hover .icon-wrapper {
+	background-color: #ffffff14 !important;
 }
 
-.cta-subtitle {
-	font-size: 1.2rem;
-	margin-bottom: 30px;
+.icon-wrapper {
+	transition: all 0.3s ease;
+	width: fit-content;
 }
 
-.btn-success {
-	background-color: #1e88e5;
+.feature-card:hover .icon-wrapper .text-primary {
+	color: white !important; /* Change icon color to white on hover */
+}
+
+.icon-wrapper {
+	width: 80px;
+	height: 80px;
+}
+
+.bg-primary-soft {
+	background: #181c40 !important;
+	border-radius: 10px;
+	color: white !important;
+}
+
+/* ============== CTA Section ============== */
+
+.cta-icon {
+	width: 80px;
+	height: 80px;
+}
+
+/* ============== Footer ============== */
+.footer {
+	background: #181c40;
+}
+
+/* ============== Responsive Design ============== */
+@media (max-width: 768px) {
+	.hero-section h1 {
+		font-size: 2rem;
+	}
+
+	.survey-form .btn {
+		width: 100%;
+		margin-top: 1rem;
+	}
+
+	.feature-card {
+		margin-bottom: 2rem;
+	}
+}
+
+/* Spacing Between Navbar and Hero */
+.hero-section {
+	padding-top: 120px !important;
+}
+
+.hero-section span {
+	color: #4f46e5;
+	text-decoration: underline;
+}
+
+/* CTA Section Styling */
+.highlight-text {
+	color: #4f46e5;
+	text-decoration: underline;
+	text-underline-offset: 8px;
+}
+
+.cta-section .btn-light {
+	background-color: #4f46e5;
 	color: white;
-	padding: 0.6rem 1.5rem;
-	border-radius: 5px;
 	border: none;
-	font-size: 1rem;
+	transition: all 0.3s ease;
 }
 
-.btn-success:hover {
-	background-color: #1e88e5;
-}
-
-/* Footer */
-.dark-footer {
-	background-color: #101010;
-	padding: 20px;
-	color: #777;
-	font-size: 0.9rem;
+.cta-section .btn-light:hover {
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
