@@ -55,6 +55,6 @@ button#actionBtn {
 
 @media (max-width: 768px) {
 	.survey-container {
-		width: 95%;
+		width: 90%;
 	}
 }

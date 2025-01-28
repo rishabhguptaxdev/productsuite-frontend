@@ -41,7 +41,7 @@ const LandingPage = () => {
 						InsightSurveyAI
 					</Navbar.Brand>
 					<button
-						className="btn btn-primary px-4 py-2 fw-bold"
+						className="btn navbarStartButton px-4 py-2 fw-bold"
 						onClick={() => loginWithRedirect()}
 						style={{ borderRadius: "8px", width: "10rem" }}
 					>
@@ -69,7 +69,7 @@ const LandingPage = () => {
 						</Col>
 						<Col md="auto">
 							<button
-								className="btn btn-primary btn-lg px-5 py-3 fw-semibold d-flex align-items-center"
+								className="btn heroSectionCreateSurveyButton btn-lg px-5 py-3 fw-semibold d-flex align-items-center"
 								onClick={() => loginWithRedirect()}
 							>
 								<FontAwesomeIcon icon={faRocket} className="me-3" />

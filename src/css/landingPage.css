@@ -21,20 +21,46 @@
 /* ============== Navbar ============== */
 .navbar {
 	padding: 1rem 0;
-	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+	background: rgba(
+		245,
+		243,
+		255,
+		0.95
+	) !important; /* Matching hero gradient color */
+	backdrop-filter: blur(8px);
+	border-bottom: none !important;
 }
 
-.btn-primary {
+.navbar-brand,
+.navbar-nav .nav-link {
+	color: #181c40 !important;
+}
+
+.navbar-brand:hover {
+	cursor: pointer;
+}
+
+.navbarStartButton {
 	background-color: transparent;
 	border-color: #4f46e5;
 	color: #4f46e5;
 	transition: all 0.3s ease;
 }
 
-.btn-primary:hover {
+.navbarStartButton:hover {
 	background-color: #4f46e5;
+	color: white;
 }
 
+.heroSectionCreateSurveyButton {
+	background-color: #4f46e5;
+	color: white;
+}
+
+.heroSectionCreateSurveyButton:hover {
+	background-color: #4f46e5;
+	color: white;
+}
 /* ============== Hero Section ============== */
 .hero-section h1 {
 	font-size: 2.75rem;
@@ -130,6 +156,17 @@
 /* Spacing Between Navbar and Hero */
 .hero-section {
 	padding-top: 120px !important;
+	background: linear-gradient(
+		to bottom,
+		rgba(245, 243, 255, 1) 0%,
+		rgba(245, 243, 255, 1) 50%,
+		rgba(255, 255, 255, 1) 50%
+	);
+	background-size: 100% 200%; /* Double height for smooth transition */
+}
+
+.hero-section::after {
+	content: none;
 }
 
 .hero-section span {
