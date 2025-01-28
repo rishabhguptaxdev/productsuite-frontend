@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "../css/landingPage.css";
-import SideImage from "../images/ai.jpeg";
+import SideImage from "../images/ai.png";
 import NavbarIcon from "../images/main.png";
 
 const LandingPage = () => {
