@@ -214,7 +214,7 @@
 }
 
 .dropdown-item:hover {
-	background: var(--hover-bg);
+	cursor: pointer;
 }
 
 /* Main Content */

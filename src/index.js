@@ -16,7 +16,15 @@ root.render(
 			domain={process.env.REACT_APP_AUTH_DOMAIN}
 			clientId={process.env.REACT_APP_CLIENT_ID}
 			authorizationParams={{
-				redirect_uri: `${window.location.origin}/dashboard`,
+				redirect_uri: window.location.origin,
+			}}
+			onRedirectCallback={(appState) => {
+				// Navigate to the target route after login, default to dashboard
+				window.history.replaceState(
+					{},
+					document.title,
+					appState?.returnTo || "/dashboard"
+				);
 			}}
 		>
 			<Provider store={store}>
