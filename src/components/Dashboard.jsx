@@ -7,8 +7,8 @@ import {
 	faSquarePollVertical,
 	faCaretDown,
 	faUser,
-	faCaretRight,
 	faCaretLeft,
+	faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import main from "../images/main.png";
 import {
@@ -82,15 +82,16 @@ function Dashboard() {
 					<div className="logo-container">
 						<img src={main} alt="Logo" className="logo" />
 						<span className="logo-text">InsightSurvey.ai</span>
+						<button
+							className="sidebar-toggle"
+							onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+						>
+							<FontAwesomeIcon
+								icon={isSidebarCollapsed ? faBars : faCaretLeft}
+								className="toggle-icon"
+							/>
+						</button>
 					</div>
-					<button
-						className="sidebar-toggle"
-						onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-					>
-						<FontAwesomeIcon
-							icon={isSidebarCollapsed ? faCaretRight : faCaretLeft}
-						/>
-					</button>
 				</div>
 
 				<nav className="sidebar-nav">
