@@ -76,11 +76,6 @@ nav .account-icon {
 	color: white !important;
 }
 
-.profile-dropdown {
-	position: relative;
-	display: inline-block;
-}
-
 .profile-toggle {
 	display: flex;
 	align-items: center;
@@ -112,26 +107,11 @@ nav .account-icon {
 	z-index: 1000;
 	animation: fadeInSlideDown 0.2s ease-in-out;
 	font-size: 14px;
-}
-
-/* Dropdown Item */
-.dropdown-item {
-	padding: 10px 15px;
-	display: flex;
-	align-items: center;
 	cursor: pointer;
-	font-size: 14px;
-	color: #333;
-	transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .dropdown-item:hover {
 	background-color: #f0f0f0;
-}
-
-/* Profile Dropdown */
-.profile-dropdown {
-	position: relative;
 }
 
 /* Profile Toggle */
@@ -152,6 +132,79 @@ nav .account-icon {
 
 /* Subtle Animation for Dropdown */
 @keyframes fadeInSlideDown {
+	from {
+		opacity: 0;
+		transform: translateY(-5px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Profile Dropdown Styles */
+.profile-dropdown {
+	position: relative;
+	margin-right: 20px;
+}
+
+.profile-toggle {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	padding: 8px 15px;
+	background-color: rgba(255, 255, 255, 0.9);
+	border-radius: 25px;
+	transition: all 0.2s ease;
+	border: 1px solid #e0e0e0;
+}
+
+.profile-toggle:hover {
+	background-color: rgba(245, 245, 245, 0.9);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu {
+	position: absolute;
+	top: 110%;
+	right: 0;
+	background: white;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	padding: 8px 0;
+	min-width: 180px;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(-10px);
+	transition: all 0.2s ease;
+	z-index: 1000;
+}
+
+.dropdown-menu.show {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+}
+.dropdown-item {
+	padding: 10px 20px;
+	display: flex;
+	align-items: center;
+	color: #444;
+	font-size: 14px;
+	transition: background 0.2s ease;
+}
+
+.dropdown-item:hover {
+	background: #f8f9fa;
+}
+
+.profile-image {
+	border: 2px solid #fff;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation */
+@keyframes fadeIn {
 	from {
 		opacity: 0;
 		transform: translateY(-5px);

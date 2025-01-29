@@ -24,6 +24,7 @@ import SurveyCreated from "./SurveyCreated";
 function Dashboard() {
 	const [profileImgError, setProfileImgError] = useState(false); // Track image load errors
 	const dispatch = useDispatch();
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	const dropdownRef = useRef(null);
 	const dropdownMenuRef = useRef(null);
@@ -31,6 +32,19 @@ function Dashboard() {
 
 	const { user, isAuthenticated, isLoading, getAccessTokenSilently, logout } =
 		useAuth0();
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+				setIsDropdownOpen(false);
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
 
 	useEffect(() => {
 		const fetchToken = async () => {
@@ -72,15 +86,7 @@ function Dashboard() {
 	}, [isAuthenticated, isLoading, getAccessTokenSilently, user, logout]);
 
 	const toggleDropdown = () => {
-		if (dropdownMenuRef.current) {
-			const currentDisplay = dropdownMenuRef.current.style.display;
-
-			if (currentDisplay === "block") {
-				dropdownMenuRef.current.style.display = "none";
-			} else {
-				dropdownMenuRef.current.style.display = "block";
-			}
-		}
+		setIsDropdownOpen(!isDropdownOpen);
 	};
 
 	const handleLogout = () => {
@@ -132,9 +138,8 @@ function Dashboard() {
 								/>
 							</div>
 							<div
-								className="dropdown-menu"
+								className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}
 								ref={dropdownMenuRef}
-								style={{ display: "none" }}
 							>
 								<div className="dropdown-item" onClick={handleLogout}>
 									<FontAwesomeIcon
