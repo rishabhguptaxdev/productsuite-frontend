@@ -3,11 +3,19 @@ import axios from "axios";
 import "../css/styles.css";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLink, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import {
+	faLink,
+	faSpinner,
+	faPlusCircle,
+	faClipboard,
+} from "@fortawesome/free-solid-svg-icons";
 import ViewResponses from "./ViewResponses";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { activateViewResponseComponent } from "../redux/dashboardSlice";
+import {
+	activateViewResponseComponent,
+	activateCreateSurveyComponent,
+} from "../redux/dashboardSlice";
 
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 const frontendbaseurl = process.env.REACT_APP_FRONTEND_URL;
@@ -66,10 +74,6 @@ function MySurveys() {
 		}
 	};
 
-	console.log(
-		"status of view response: ",
-		useSelector((state) => state.dashboard.showViewResponse)
-	);
 	useEffect(() => {
 		loadSurveys();
 	}, []);
@@ -99,66 +103,83 @@ function MySurveys() {
 			) : (
 				<div className="my-surveys">
 					<h1>Surveys</h1>
-					<table className="table">
-						<thead>
-							<tr>
-								<th scope="col">Date</th>
-								<th scope="col">Time</th>
-								<th scope="col">Survey Title</th>
-								<th scope="col">Responses</th>
-								<th scope="col">Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							{surveys.map((survey) => (
-								<tr
-									key={survey._id}
-									className="clickable-row"
-									onClick={() => {
-										sessionStorage.setItem("surveyId", survey._id);
-										console.log("clicked view response");
-										dispatch(activateViewResponseComponent());
-									}}
-								>
-									<td>{moment(survey.createdDate).format("MMMM D, YYYY")}</td>
-									<td>{moment(survey.createdDate).format("h:mm:ss A")}</td>
-									<td>{survey.title}</td>
-									<td>{survey.responseCount}</td>
-									<td>
-										{/* Toggle Button */}
-										<label className="switch">
-											<input
-												type="checkbox"
-												checked={!survey.isClosed}
-												onClick={(e) => e.stopPropagation()}
-												onChange={() =>
-													handleToggleChange(survey._id, survey.isClosed)
-												}
-											/>
-											<span
-												className="slider round"
-												onClick={(e) => e.stopPropagation()}
-											></span>
-										</label>
-										{/* Copy Link Button */}
-										<span
-											className="icon-wrapper"
-											onClick={(e) => {
-												e.stopPropagation();
-												handleCopyLink(survey._id);
-											}}
-										>
-											<FontAwesomeIcon
-												className="copyLink"
-												icon={faLink}
-												size="xl"
-											/>
-										</span>
-									</td>
+					{surveys.length === 0 ? (
+						<div className="no-surveys-message">
+							<FontAwesomeIcon
+								icon={faClipboard}
+								className="empty-icon"
+								size="3x"
+							/>
+							<p>No surveys created yet</p>
+							<button
+								className="btn btn-primary create-survey-btn"
+								onClick={() => dispatch(activateCreateSurveyComponent())}
+							>
+								<FontAwesomeIcon icon={faPlusCircle} /> Create New Survey
+							</button>
+						</div>
+					) : (
+						<table className="table">
+							<thead>
+								<tr>
+									<th scope="col">Date</th>
+									<th scope="col">Time</th>
+									<th scope="col">Survey Title</th>
+									<th scope="col">Responses</th>
+									<th scope="col">Action</th>
 								</tr>
-							))}
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								{surveys.map((survey) => (
+									<tr
+										key={survey._id}
+										className="clickable-row"
+										onClick={() => {
+											sessionStorage.setItem("surveyId", survey._id);
+											console.log("clicked view response");
+											dispatch(activateViewResponseComponent());
+										}}
+									>
+										<td>{moment(survey.createdDate).format("MMMM D, YYYY")}</td>
+										<td>{moment(survey.createdDate).format("h:mm:ss A")}</td>
+										<td>{survey.title}</td>
+										<td>{survey.responseCount}</td>
+										<td>
+											{/* Toggle Button */}
+											<label className="switch">
+												<input
+													type="checkbox"
+													checked={!survey.isClosed}
+													onClick={(e) => e.stopPropagation()}
+													onChange={() =>
+														handleToggleChange(survey._id, survey.isClosed)
+													}
+												/>
+												<span
+													className="slider round"
+													onClick={(e) => e.stopPropagation()}
+												></span>
+											</label>
+											{/* Copy Link Button */}
+											<span
+												className="icon-wrapper"
+												onClick={(e) => {
+													e.stopPropagation();
+													handleCopyLink(survey._id);
+												}}
+											>
+												<FontAwesomeIcon
+													className="copyLink"
+													icon={faLink}
+													size="xl"
+												/>
+											</span>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					)}
 				</div>
 			)}
 		</div>

@@ -27,6 +27,7 @@ function Dashboard() {
 
 	const dropdownRef = useRef(null);
 	const dropdownMenuRef = useRef(null);
+	const fetchTokenFlag = useRef(false); // Add this ref
 
 	const { user, isAuthenticated, isLoading, getAccessTokenSilently, logout } =
 		useAuth0();
@@ -34,6 +35,8 @@ function Dashboard() {
 	useEffect(() => {
 		const fetchToken = async () => {
 			try {
+				if (fetchTokenFlag.current) return;
+				fetchTokenFlag.current = true;
 				const accessToken = await getAccessTokenSilently();
 				const response = await fetch(
 					`${process.env.REACT_APP_BACKEND_URL}/auth/signup-login`,
@@ -56,15 +59,14 @@ function Dashboard() {
 					localStorage.setItem("token", data.token);
 				} else {
 					console.error("Failed to exchange token", data.message);
-					// logout({ returnTo: window.location.origin });
 				}
 			} catch (error) {
 				console.error("Error fetching token:", error);
-				// logout({ returnTo: window.location.origin });
+				fetchTokenFlag.current = false; // Reset on error
 			}
 		};
 
-		if (isAuthenticated && !isLoading) {
+		if (isAuthenticated && !isLoading && user) {
 			fetchToken();
 		}
 	}, [isAuthenticated, isLoading, getAccessTokenSilently, user, logout]);

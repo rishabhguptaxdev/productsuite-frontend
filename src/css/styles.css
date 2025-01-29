@@ -183,3 +183,32 @@ input:checked + .slider:before {
 	color: #007bff;
 	margin-bottom: 1rem;
 }
+
+.no-surveys-message {
+	text-align: center;
+	padding: 40px;
+	margin-top: 30px;
+	background-color: #f8f9fa;
+	border-radius: 10px;
+}
+
+.no-surveys-message p {
+	font-size: 1.2rem;
+	color: #6c757d;
+	margin: 20px 0;
+}
+
+.empty-icon {
+	color: #dee2e6;
+	margin-bottom: 20px;
+}
+
+.create-survey-btn {
+	padding: 10px 25px;
+	font-size: 1.1rem;
+	border-radius: 25px;
+}
+
+.create-survey-btn svg {
+	margin-right: 8px;
+}
