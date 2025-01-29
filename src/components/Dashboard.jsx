@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import "../css/dashboard.css";
-import CreateSurvey from "./CreateSurvey";
-import MySurveys from "./MySurveys";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faArrowRightFromBracket,
@@ -10,26 +7,27 @@ import {
 	faSquarePollVertical,
 	faCaretDown,
 	faUser,
+	faCaretRight,
+	faCaretLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import main from "../images/main.png";
 import {
 	activateCreateSurveyComponent,
 	activateMySurveysComponent,
 } from "../redux/dashboardSlice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import CreateSurvey from "./CreateSurvey";
+import MySurveys from "./MySurveys";
 import ViewResponses from "./ViewResponses";
 import SurveyCreated from "./SurveyCreated";
+import "../css/dashboard.css";
 
 function Dashboard() {
-	const [profileImgError, setProfileImgError] = useState(false); // Track image load errors
-	const dispatch = useDispatch();
+	const [profileImgError, setProfileImgError] = useState(false);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+	const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+	const dispatch = useDispatch();
 	const dropdownRef = useRef(null);
-	const dropdownMenuRef = useRef(null);
-	const fetchTokenFlag = useRef(false); // Add this ref
-
 	const { user, isAuthenticated, isLoading, getAccessTokenSilently, logout } =
 		useAuth0();
 
@@ -39,18 +37,13 @@ function Dashboard() {
 				setIsDropdownOpen(false);
 			}
 		};
-
 		document.addEventListener("mousedown", handleClickOutside);
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
-	}, []);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, [dropdownRef]);
 
 	useEffect(() => {
 		const fetchToken = async () => {
 			try {
-				if (fetchTokenFlag.current) return;
-				fetchTokenFlag.current = true;
 				const accessToken = await getAccessTokenSilently();
 				const response = await fetch(
 					`${process.env.REACT_APP_BACKEND_URL}/auth/signup-login`,
@@ -66,28 +59,16 @@ function Dashboard() {
 						}),
 					}
 				);
-
-				const data = await response.json();
-
 				if (response.ok) {
+					const data = await response.json();
 					localStorage.setItem("token", data.token);
-				} else {
-					console.error("Failed to exchange token", data.message);
 				}
 			} catch (error) {
 				console.error("Error fetching token:", error);
-				fetchTokenFlag.current = false; // Reset on error
 			}
 		};
-
-		if (isAuthenticated && !isLoading && user) {
-			fetchToken();
-		}
-	}, [isAuthenticated, isLoading, getAccessTokenSilently, user, logout]);
-
-	const toggleDropdown = () => {
-		setIsDropdownOpen(!isDropdownOpen);
-	};
+		if (isAuthenticated && !isLoading && user) fetchToken();
+	}, [isAuthenticated, isLoading, getAccessTokenSilently, user]);
 
 	const handleLogout = () => {
 		localStorage.removeItem("token");
@@ -96,99 +77,85 @@ function Dashboard() {
 
 	return (
 		<div className="dashboard">
-			<header>
-				<div className="logo-container">
-					<img
-						src={main}
-						style={{ height: 30, width: 30, marginRight: 10 }}
-						className="rounded float-start img-fluid"
-						alt="Main Logo"
-					/>
-					InsightSurvey.ai
+			<aside className={`sidebar ${isSidebarCollapsed ? "collapsed" : ""}`}>
+				<div className="sidebar-header">
+					<div className="logo-container">
+						<img src={main} alt="Logo" className="logo" />
+						<span className="logo-text">InsightSurvey.ai</span>
+					</div>
+					<button
+						className="sidebar-toggle"
+						onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+					>
+						<FontAwesomeIcon
+							icon={isSidebarCollapsed ? faCaretRight : faCaretLeft}
+						/>
+					</button>
 				</div>
-				<nav>
-					{isAuthenticated && user ? (
+
+				<nav className="sidebar-nav">
+					<ul>
+						<li
+							className={
+								useSelector((state) => state.dashboard.showCreateSurvey)
+									? "active"
+									: ""
+							}
+							onClick={() => dispatch(activateCreateSurveyComponent())}
+						>
+							<FontAwesomeIcon icon={faFileLines} />
+							<span>Create Survey</span>
+						</li>
+						<li
+							className={
+								useSelector((state) => state.dashboard.showMySurveys)
+									? "active"
+									: ""
+							}
+							onClick={() => dispatch(activateMySurveysComponent())}
+						>
+							<FontAwesomeIcon icon={faSquarePollVertical} />
+							<span>My Surveys</span>
+						</li>
+					</ul>
+				</nav>
+
+				<div className="sidebar-profile">
+					{isAuthenticated && user && (
 						<div className="profile-dropdown" ref={dropdownRef}>
-							<div className="profile-toggle" onClick={toggleDropdown}>
+							<div
+								className="profile-toggle"
+								onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+							>
 								{profileImgError || !user.picture ? (
-									<FontAwesomeIcon
-										icon={faUser}
-										size="xl"
-										style={{ marginRight: 10 }}
-									/>
+									<FontAwesomeIcon icon={faUser} />
 								) : (
 									<img
 										src={user.picture}
 										alt="Profile"
 										className="profile-image"
-										style={{
-											height: 30,
-											width: 30,
-											borderRadius: "50%",
-											marginRight: 10,
-										}}
-										onError={() => setProfileImgError(true)} // Handle broken image fallback
+										onError={() => setProfileImgError(true)}
 									/>
 								)}
-								{user.name || "Profile"}
-								<FontAwesomeIcon
-									icon={faCaretDown}
-									size="lg"
-									style={{ marginLeft: 5 }}
-								/>
+								{!isSidebarCollapsed && (
+									<>
+										<span>{user.name || "Profile"}</span>
+										<FontAwesomeIcon icon={faCaretDown} />
+									</>
+								)}
 							</div>
-							<div
-								className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}
-								ref={dropdownMenuRef}
-							>
+							<div className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
 								<div className="dropdown-item" onClick={handleLogout}>
-									<FontAwesomeIcon
-										style={{ marginRight: 10 }}
-										icon={faArrowRightFromBracket}
-										size="lg"
-									/>
-									Logout
+									<FontAwesomeIcon icon={faArrowRightFromBracket} />
+									<span>Logout</span>
 								</div>
 							</div>
 						</div>
-					) : (
-						<div>Loading...</div>
 					)}
-				</nav>
-			</header>
-			<div className="main-content">
-				<aside className="sidebar">
-					<ul>
-						<li
-							className={
-								useSelector((state) => state.dashboard.showCreateSurvey) &&
-								"active"
-							}
-							onClick={() => dispatch(activateCreateSurveyComponent())}
-						>
-							<FontAwesomeIcon
-								icon={faFileLines}
-								size="lg"
-								style={{ marginRight: 5 }}
-							/>
-							Create Survey
-						</li>
-						<li
-							className={
-								useSelector((state) => state.dashboard.showMySurveys) &&
-								"active"
-							}
-							onClick={() => dispatch(activateMySurveysComponent())}
-						>
-							<FontAwesomeIcon
-								icon={faSquarePollVertical}
-								size="lg"
-								style={{ marginRight: 5 }}
-							/>
-							My Surveys
-						</li>
-					</ul>
-				</aside>
+				</div>
+			</aside>
+
+			<main className="main-content">
 				<section className="content">
 					{useSelector((state) => state.dashboard.showCreateSurvey) && (
 						<CreateSurvey />
@@ -203,7 +170,7 @@ function Dashboard() {
 						<SurveyCreated />
 					)}
 				</section>
-			</div>
+			</main>
 		</div>
 	);
 }
