@@ -56,11 +56,11 @@ function Dashboard() {
 					localStorage.setItem("token", data.token);
 				} else {
 					console.error("Failed to exchange token", data.message);
-					logout({ returnTo: window.location.origin });
+					// logout({ returnTo: window.location.origin });
 				}
 			} catch (error) {
 				console.error("Error fetching token:", error);
-				logout({ returnTo: window.location.origin });
+				// logout({ returnTo: window.location.origin });
 			}
 		};
 
