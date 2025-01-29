@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../css/create_survey.css";
 import SurveyCreated from "./SurveyCreated";
+import { useDispatch, useSelector } from "react-redux";
+import { activateSurveyCreatedComponent } from "../redux/dashboardSlice";
 
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 const frontendbaseurl = process.env.REACT_APP_FRONTEND_URL;
@@ -10,9 +12,9 @@ function CreateSurvey() {
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [firstQuestion, setFirstQuestion] = useState("");
-	const [maxQuestions, setMaxQuestions] = useState(5);
+	const [maxQuestions, setMaxQuestions] = useState(3);
 	const [isFormComplete, setIsFormComplete] = useState(false);
-	const [surveyCreated, setSurveyCreated] = useState(false);
+	const dispatch = useDispatch();
 
 	const checkFormCompletion = () => {
 		setIsFormComplete(
@@ -45,13 +47,13 @@ function CreateSurvey() {
 				"surveyLink",
 				`${frontendbaseurl}/take_survey/${response.data.savedSurvey._id}`
 			);
-			setSurveyCreated(true);
+			dispatch(activateSurveyCreatedComponent());
 		} catch (error) {
 			alert("Error creating survey");
 		}
 	};
 
-	return surveyCreated ? (
+	return useSelector((state) => state.dashboard.showSurveyCreated) ? (
 		<SurveyCreated />
 	) : (
 		<div className="create-survey">
@@ -113,6 +115,7 @@ function CreateSurvey() {
 						<option value="" disabled>
 							Select number of questions
 						</option>
+						<option value="3">3</option>
 						<option value="5">5</option>
 						<option value="10">10</option>
 					</select>
@@ -125,7 +128,7 @@ function CreateSurvey() {
 									setTitle("");
 									setDescription("");
 									setFirstQuestion("");
-									setMaxQuestions(5);
+									setMaxQuestions(3);
 									setIsFormComplete(false);
 								}}
 							>

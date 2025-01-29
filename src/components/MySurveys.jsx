@@ -5,6 +5,9 @@ import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import ViewResponses from "./ViewResponses";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { activateViewResponseComponent } from "../redux/dashboardSlice";
 
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 const frontendbaseurl = process.env.REACT_APP_FRONTEND_URL;
@@ -12,8 +15,8 @@ const frontendbaseurl = process.env.REACT_APP_FRONTEND_URL;
 function MySurveys() {
 	const [surveys, setSurveys] = useState([]);
 	const [isLoading, setIsLoading] = useState(true); // Loader state
-	const [openSurvey, setOpenSurvey] = useState(false);
 	const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+	const dispatch = useDispatch();
 
 	const loadSurveys = async () => {
 		try {
@@ -63,12 +66,17 @@ function MySurveys() {
 		}
 	};
 
+	console.log(
+		"status of view response: ",
+		useSelector((state) => state.dashboard.showViewResponse)
+	);
 	useEffect(() => {
 		loadSurveys();
 	}, []);
 
-	return openSurvey ? (
+	return useSelector((state) => state.dashboard.showViewResponse) ? (
 		<div>
+			{console.log("going in view response")}
 			<ViewResponses />
 		</div>
 	) : (
@@ -107,8 +115,9 @@ function MySurveys() {
 									key={survey._id}
 									className="clickable-row"
 									onClick={() => {
-										setOpenSurvey(true);
 										sessionStorage.setItem("surveyId", survey._id);
+										console.log("clicked view response");
+										dispatch(activateViewResponseComponent());
 									}}
 								>
 									<td>{moment(survey.createdDate).format("MMMM D, YYYY")}</td>

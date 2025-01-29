@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/auth/authSlice";
+import { login } from "../redux/authSlice";
 
 import "../css/auth.css";
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;

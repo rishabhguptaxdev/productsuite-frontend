@@ -1,11 +1,13 @@
 // src/redux/store.js
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
+import dashboardReducer from "./dashboardSlice";
 
 const store = configureStore({
-  reducer: {
-    auth: authReducer,
-  },
+	reducer: {
+		auth: authReducer,
+		dashboard: dashboardReducer,
+	},
 });
 
 export default store;

@@ -5,14 +5,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/view_responses.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { activateMySurveysComponent } from "../redux/dashboardSlice";
 
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 
 function ViewResponses() {
+	console.log("in view response compponent");
 	const id = sessionStorage.getItem("surveyId");
 	const [responses, setResponses] = useState([]);
 	const [surveyDetails, setSurveyDetails] = useState({});
 	const [isLoading, setIsLoading] = useState(true); // Loader state
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const fetchSurveyDetails = async () => {
@@ -68,7 +72,7 @@ function ViewResponses() {
 			<div
 				className="back-button"
 				onClick={() => {
-					window.history.back();
+					dispatch(activateMySurveysComponent());
 				}}
 			>
 				<FontAwesomeIcon icon={faArrowLeft} /> Back

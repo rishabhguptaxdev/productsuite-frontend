@@ -12,17 +12,24 @@ import {
 	faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import main from "../images/main.png";
+import {
+	activateCreateSurveyComponent,
+	activateMySurveysComponent,
+} from "../redux/dashboardSlice";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import ViewResponses from "./ViewResponses";
+import SurveyCreated from "./SurveyCreated";
 
-function Dashboard({ initialView }) {
-	const [view, setView] = useState(initialView || "create");
+function Dashboard() {
 	const [profileImgError, setProfileImgError] = useState(false); // Track image load errors
+	const dispatch = useDispatch();
 
 	const dropdownRef = useRef(null);
 	const dropdownMenuRef = useRef(null);
 
 	const { user, isAuthenticated, isLoading, getAccessTokenSilently, logout } =
 		useAuth0();
-	console.log(user);
 
 	useEffect(() => {
 		const fetchToken = async () => {
@@ -146,8 +153,11 @@ function Dashboard({ initialView }) {
 				<aside className="sidebar">
 					<ul>
 						<li
-							className={view === "create" ? "active" : ""}
-							onClick={() => setView("create")}
+							className={
+								useSelector((state) => state.dashboard.showCreateSurvey) &&
+								"active"
+							}
+							onClick={() => dispatch(activateCreateSurveyComponent())}
 						>
 							<FontAwesomeIcon
 								icon={faFileLines}
@@ -157,8 +167,11 @@ function Dashboard({ initialView }) {
 							Create Survey
 						</li>
 						<li
-							className={view === "list" ? "active" : ""}
-							onClick={() => setView("list")}
+							className={
+								useSelector((state) => state.dashboard.showMySurveys) &&
+								"active"
+							}
+							onClick={() => dispatch(activateMySurveysComponent())}
 						>
 							<FontAwesomeIcon
 								icon={faSquarePollVertical}
@@ -170,8 +183,18 @@ function Dashboard({ initialView }) {
 					</ul>
 				</aside>
 				<section className="content">
-					{view === "create" && <CreateSurvey />}
-					{view === "list" && <MySurveys />}
+					{useSelector((state) => state.dashboard.showCreateSurvey) && (
+						<CreateSurvey />
+					)}
+					{useSelector((state) => state.dashboard.showMySurveys) && (
+						<MySurveys />
+					)}
+					{useSelector((state) => state.dashboard.showViewResponse) && (
+						<ViewResponses />
+					)}
+					{useSelector((state) => state.dashboard.showSurveyCreated) && (
+						<SurveyCreated />
+					)}
 				</section>
 			</div>
 		</div>

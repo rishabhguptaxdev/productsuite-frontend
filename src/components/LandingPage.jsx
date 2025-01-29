@@ -38,7 +38,7 @@ const LandingPage = () => {
 							alt=""
 							className="rounded"
 						/>{" "}
-						InsightSurveyAI
+						InsightSurvey<span>.ai</span>
 					</Navbar.Brand>
 					<button
 						className="btn navbarStartButton px-4 py-2 fw-bold"
@@ -50,7 +50,7 @@ const LandingPage = () => {
 				</Container>
 			</Navbar>
 
-			<section className="hero-section" style={{ paddingTop: "120px" }}>
+			<section className="hero-section" style={{ paddingTop: "90px" }}>
 				<Container className="py-5">
 					<h1 className="display-4 fw-bold text-center mb-4">
 						Build Insightful <span>AI Powered</span> <br />
@@ -92,11 +92,11 @@ const LandingPage = () => {
 				<Container>
 					<Row className="g-5 align-items-center">
 						<Col md={6}>
-							<h2 className="text-center fw-bold mb-6 display-5">
+							<h3 className="text-center fw-bold mb-6 display-5">
 								How to generate your survey in minutes with AI
-							</h2>
+							</h3>
 							{[1, 2, 3, 4].map((step) => (
-								<div key={step} className="d-flex align-items-start mb-4">
+								<div key={step} className="d-flex  mb-4">
 									<div className="step-number text-white rounded-3 d-flex align-items-center justify-content-center me-4">
 										{step}
 									</div>
@@ -107,14 +107,14 @@ const LandingPage = () => {
 								</div>
 							))}
 						</Col>
-						<Col md={6} className="text-center order-md-2">
-							{" "}
-							{/* Added order and text-center */}
+						<Col
+							md={6}
+							className="text-center align-items-center justify-content-center order-md-2"
+						>
 							<img
 								src={SideImage}
 								alt="Steps Visual"
 								className="img-fluid rounded-4 shadow mx-auto"
-								style={{ maxWidth: "90%" }}
 							/>
 						</Col>
 					</Row>
