@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../css/styles.css";
 import moment from "moment";
@@ -161,7 +161,7 @@ function MySurveys() {
 								className="sort-select"
 							>
 								<option value="_id">Newest</option>
-								<option value="title">Title (A-Z)</option>
+								<option value="oldest">Oldest</option>
 								<option value="responseCount">Most Responses</option>
 							</select>
 						</div>
@@ -229,10 +229,10 @@ function MySurveys() {
 								{/* Keep existing table structure */}
 								<thead>
 									<tr>
-										<th scope="col">Date</th>
-										<th scope="col">Time</th>
+										<th scope="col">Created Date</th>
+										<th scope="col">Created Time</th>
 										<th scope="col">Survey Title</th>
-										<th scope="col">Responses</th>
+										<th scope="col">Total Response</th>
 										<th scope="col">Action</th>
 									</tr>
 								</thead>
