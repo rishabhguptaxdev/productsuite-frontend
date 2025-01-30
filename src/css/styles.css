@@ -212,3 +212,138 @@ input:checked + .slider:before {
 .create-survey-btn svg {
 	margin-right: 8px;
 }
+
+/* Pagination Controls */
+.pagination-controls {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 1rem;
+	padding: 0.5rem;
+}
+
+.page-size-selector {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.page-size-selector select {
+	padding: 0.25rem;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+.page-navigation {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.page-navigation button {
+	padding: 0.25rem 0.5rem;
+	border: 1px solid #ddd;
+	background: white;
+	cursor: pointer;
+	border-radius: 4px;
+}
+
+.page-navigation button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.page-navigation button:hover:not(:disabled) {
+	background: #f8f9fa;
+}
+
+/* Header Controls */
+.surveys-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 1rem 0;
+	padding: 0.5rem 0;
+	border-bottom: 1px solid #eee;
+}
+
+.controls-left,
+.controls-right {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: #666;
+}
+
+.sort-control {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-left: 1rem;
+}
+
+.entries-select,
+.sort-select {
+	padding: 0.25rem 0.5rem;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background: white;
+	color: #333;
+}
+
+.pagination-controls {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-left: 1rem;
+}
+
+.pagination-controls button {
+	background: none;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 0.25rem 0.5rem;
+	cursor: pointer;
+	color: #333; /* Black color for icons */
+}
+
+.pagination-controls button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.pagination-icon {
+	color: #333; /* Explicit black color */
+	width: 16px;
+	height: 16px;
+}
+
+.page-indicator {
+	font-size: 0.9rem;
+	color: #666;
+}
+
+/* Ensure select elements match design */
+.sort-select,
+.entries-select {
+	padding: 8px 25px;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	font-size: 14px;
+	background: #ffffff;
+	appearance: none;
+	background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007AFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+	background-repeat: no-repeat;
+	background-position: right 8px center;
+	background-size: 12px auto;
+}
+
+/* Pagination button hover states */
+.pagination-controls button:hover:not(:disabled) {
+	background: #f8f9fa;
+	border-color: #007aff;
+}
+
+.pagination-controls button:hover:not(:disabled) .pagination-icon {
+	color: #007aff;
+}

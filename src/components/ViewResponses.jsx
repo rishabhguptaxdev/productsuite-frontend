@@ -70,7 +70,7 @@ function ViewResponses() {
 	return (
 		<div className="responses-container">
 			<div
-				className="back-button"
+				className="back-button text-black"
 				onClick={() => {
 					dispatch(activateMySurveysComponent());
 				}}
