@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "../css/styles.css";
 import moment from "moment";
@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import {
 	activateViewResponseComponent,
 	activateCreateSurveyComponent,
+	setMySurveysState,
 } from "../redux/dashboardSlice";
 import ViewResponses from "./ViewResponses";
 
@@ -23,25 +24,19 @@ const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 const frontendbaseurl = process.env.REACT_APP_FRONTEND_URL;
 
 function MySurveys() {
+	const mySurveysState = useSelector((state) => state.dashboard.mySurveysState);
 	const [surveys, setSurveys] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [showCopiedMessage, setShowCopiedMessage] = useState(false);
-	const [sort, setSort] = useState("_id"); // Default to newest first
 	const dispatch = useDispatch();
-	const [pagination, setPagination] = useState({
-		page: 1,
-		limit: 5,
-		total: 0,
-		totalPages: 1,
-	});
 
 	const loadSurveys = async () => {
 		try {
 			setIsLoading(true);
 			const params = {
-				page: pagination.page,
-				limit: pagination.limit,
-				sort,
+				page: mySurveysState.currentPage,
+				limit: mySurveysState.itemsPerPage,
+				sort: mySurveysState.sortField,
 			};
 
 			const response = await axios.get(`${backendbaseurl}/survey/`, {
@@ -52,12 +47,12 @@ function MySurveys() {
 			});
 
 			setSurveys(response.data.surveys);
-			setPagination({
-				page: response.data.page,
-				limit: response.data.limit,
-				total: response.data.total,
-				totalPages: response.data.totalPages,
-			});
+			dispatch(
+				setMySurveysState({
+					total: response.data.total,
+					totalPages: response.data.totalPages,
+				})
+			);
 		} catch (error) {
 			console.error("Error loading surveys", error);
 		} finally {
@@ -97,19 +92,37 @@ function MySurveys() {
 	};
 
 	const handlePageChange = (newPage) => {
-		if (newPage >= 1 && newPage <= pagination.totalPages) {
-			setPagination({ ...pagination, page: newPage });
+		if (newPage >= 1 && newPage <= mySurveysState.totalPages) {
+			dispatch(setMySurveysState({ currentPage: newPage }));
 		}
 	};
 
 	const handleLimitChange = (e) => {
 		const newLimit = parseInt(e.target.value);
-		setPagination({ ...pagination, limit: newLimit, page: 1 });
+		dispatch(
+			setMySurveysState({
+				itemsPerPage: newLimit,
+				currentPage: 1,
+			})
+		);
+	};
+
+	const handleSortChange = (e) => {
+		dispatch(
+			setMySurveysState({
+				sortField: e.target.value,
+				currentPage: 1,
+			})
+		);
 	};
 
 	useEffect(() => {
 		loadSurveys();
-	}, [pagination.page, pagination.limit, sort]); // Add sort to dependencie
+	}, [
+		mySurveysState.currentPage,
+		mySurveysState.itemsPerPage,
+		mySurveysState.sortField,
+	]);
 
 	/* Keep the existing return JSX structure exactly the same */
 	return useSelector((state) => state.dashboard.showViewResponse) ? (
@@ -128,7 +141,7 @@ function MySurveys() {
 					<div className="controls-left">
 						<span>Show:</span>
 						<select
-							value={pagination.limit}
+							value={mySurveysState.itemsPerPage}
 							onChange={handleLimitChange}
 							className="entries-select text-black"
 						>
@@ -143,8 +156,8 @@ function MySurveys() {
 						<div className="sort-control">
 							<span>Sort by:</span>
 							<select
-								value={sort}
-								onChange={(e) => setSort(e.target.value)}
+								value={mySurveysState.sortField}
+								onChange={handleSortChange}
 								className="sort-select"
 							>
 								<option value="_id">Newest</option>
@@ -155,8 +168,8 @@ function MySurveys() {
 
 						<div className="pagination-controls">
 							<button
-								onClick={() => handlePageChange(pagination.page - 1)}
-								disabled={pagination.page === 1}
+								onClick={() => handlePageChange(mySurveysState.currentPage - 1)}
+								disabled={mySurveysState.currentPage === 1}
 							>
 								<FontAwesomeIcon
 									icon={faChevronLeft}
@@ -164,11 +177,13 @@ function MySurveys() {
 								/>
 							</button>
 							<span className="page-indicator">
-								{pagination.page}/{pagination.totalPages}
+								{mySurveysState.currentPage}/{mySurveysState.totalPages}
 							</span>
 							<button
-								onClick={() => handlePageChange(pagination.page + 1)}
-								disabled={pagination.page >= pagination.totalPages}
+								onClick={() => handlePageChange(mySurveysState.currentPage + 1)}
+								disabled={
+									mySurveysState.currentPage >= mySurveysState.totalPages
+								} // Changed this line
 							>
 								<FontAwesomeIcon
 									icon={faChevronRight}

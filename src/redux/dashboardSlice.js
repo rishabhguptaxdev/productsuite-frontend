@@ -7,6 +7,13 @@ const dashboardSlice = createSlice({
 		showSurveyCreated: false,
 		showMySurveys: false,
 		showViewResponse: false,
+		mySurveysState: {
+			currentPage: 1,
+			itemsPerPage: 5,
+			sortField: "_id",
+			total: 0, // Add these
+			totalPages: 1, // Add these
+		},
 	},
 	reducers: {
 		activateCreateSurveyComponent: (state, action) => {
@@ -34,10 +41,17 @@ const dashboardSlice = createSlice({
 			state.showMySurveys = false;
 			state.showViewResponse = true;
 		},
+		setMySurveysState: (state, action) => {
+			state.mySurveysState = {
+				...state.mySurveysState,
+				...action.payload,
+			};
+		},
 	},
 });
 
 export const {
+	setMySurveysState,
 	activateCreateSurveyComponent,
 	activateSurveyCreatedComponent,
 	activateMySurveysComponent,
