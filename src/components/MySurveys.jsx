@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "../css/styles.css";
 import moment from "moment";
@@ -30,7 +30,7 @@ function MySurveys() {
 	const [showCopiedMessage, setShowCopiedMessage] = useState(false);
 	const dispatch = useDispatch();
 
-	const loadSurveys = async () => {
+	const loadSurveys = useCallback(async () => {
 		try {
 			setIsLoading(true);
 			const params = {
@@ -58,7 +58,12 @@ function MySurveys() {
 		} finally {
 			setIsLoading(false);
 		}
-	};
+	}, [
+		dispatch,
+		mySurveysState.currentPage,
+		mySurveysState.itemsPerPage,
+		mySurveysState.sortField,
+	]);
 
 	const handleCopyLink = (surveyId) => {
 		navigator.clipboard.writeText(`${frontendbaseurl}/take_survey/${surveyId}`);
@@ -118,11 +123,7 @@ function MySurveys() {
 
 	useEffect(() => {
 		loadSurveys();
-	}, [
-		mySurveysState.currentPage,
-		mySurveysState.itemsPerPage,
-		mySurveysState.sortField,
-	]);
+	}, [loadSurveys]);
 
 	/* Keep the existing return JSX structure exactly the same */
 	return useSelector((state) => state.dashboard.showViewResponse) ? (

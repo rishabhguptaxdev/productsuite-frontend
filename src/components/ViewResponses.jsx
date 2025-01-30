@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react"; // Added useCallback
 import axios from "axios";
 import { Accordion } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,16 +10,13 @@ import {
 	faChevronRight,
 	faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { activateMySurveysComponent } from "../redux/dashboardSlice";
 
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 
 function ViewResponses() {
 	const dispatch = useDispatch();
-	const viewResponsesState = useSelector(
-		(state) => state.dashboard.viewResponsesState
-	);
 
 	const [responses, setResponses] = useState([]);
 	const [surveyDetails, setSurveyDetails] = useState({});
@@ -32,7 +29,8 @@ function ViewResponses() {
 		totalPages: 1,
 		sortField: "createdAt", // Default sort by creation date
 	});
-	const fetchResponses = async () => {
+
+	const fetchResponses = useCallback(async () => {
 		try {
 			const response = await axios.get(
 				`${backendbaseurl}/response/${id}/responses`,
@@ -57,7 +55,12 @@ function ViewResponses() {
 		} catch (error) {
 			console.error("Error fetching responses:", error);
 		}
-	};
+	}, [
+		id,
+		pagination.currentPage,
+		pagination.itemsPerPage,
+		pagination.sortField,
+	]);
 
 	const handlePageChange = (newPage) => {
 		if (newPage >= 1 && newPage <= pagination.totalPages) {
@@ -94,7 +97,13 @@ function ViewResponses() {
 			setIsLoading(false);
 		};
 		fetchData();
-	}, [pagination.currentPage, pagination.itemsPerPage, pagination.sortField]);
+	}, [
+		fetchResponses,
+		id,
+		pagination.currentPage,
+		pagination.itemsPerPage,
+		pagination.sortField,
+	]);
 
 	if (isLoading) {
 		return (
@@ -197,7 +206,7 @@ function ViewResponses() {
 									{new Date(surveyDetails.createdDate).toLocaleTimeString() ||
 										"N/A"}
 								</td>
-								<td>{viewResponsesState?.total || "0"}</td>
+								<td>{pagination?.total || "0"}</td>
 								<td>
 									{surveyDetails.isClosed ? (
 										<span className="status inactive">Inactive</span>
