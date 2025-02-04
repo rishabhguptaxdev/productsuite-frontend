@@ -167,7 +167,7 @@ const LandingPage = () => {
 							},
 						].map((feature, index) => (
 							<Col lg={4} key={index}>
-								<div className="feature-card h-100 p-5 rounded-4 position-relative">
+								<div className="feature-card h-100 p-5 rounded-4 text-center position-relative">
 									<div className="icon-wrapper bg-primary-soft p-4 mb-4 rounded-3 transition-all">
 										<FontAwesomeIcon icon={feature.icon} size="2x" />
 									</div>
