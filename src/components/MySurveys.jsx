@@ -248,10 +248,8 @@ function MySurveys() {
 												dispatch(activateViewResponseComponent());
 											}}
 										>
-											<td>
-												{moment(survey.createdDate).format("MMMM D, YYYY")}
-											</td>
-											<td>{moment(survey.createdDate).format("h:mm:ss A")}</td>
+											<td>{moment(survey.createdAt).format("MMMM D, YYYY")}</td>
+											<td>{moment(survey.createdAt).format("h:mm:ss A")}</td>
 											<td>{survey.title}</td>
 											<td>{survey.responseCount}</td>
 											<td>

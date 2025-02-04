@@ -12,6 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { activateMySurveysComponent } from "../redux/dashboardSlice";
+import moment from "moment";
 
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 
@@ -199,12 +200,11 @@ function ViewResponses() {
 						<tbody>
 							<tr>
 								<td>
-									{new Date(surveyDetails.createdDate).toLocaleDateString() ||
+									{moment(surveyDetails.createdAt).format("MMMM D, YYYY") ||
 										"N/A"}
 								</td>
 								<td>
-									{new Date(surveyDetails.createdDate).toLocaleTimeString() ||
-										"N/A"}
+									{moment(surveyDetails.createdAt).format("h:mm:ss A") || "N/A"}
 								</td>
 								<td>{pagination?.total || "0"}</td>
 								<td>

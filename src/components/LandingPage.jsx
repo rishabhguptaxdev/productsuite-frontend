@@ -7,13 +7,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faRocket,
 	faPaintBrush,
-	faCode,
 	faUserTie,
+	faMessage,
+	faPencilAlt,
+	faRobot,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "../css/landingPage.css";
-import SideImage from "../images/ai.png";
 import NavbarIcon from "../images/main.png";
+import { TypeAnimation } from "react-type-animation";
 
 const LandingPage = () => {
 	const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
@@ -50,22 +52,37 @@ const LandingPage = () => {
 				</Container>
 			</Navbar>
 
-			<section className="hero-section" style={{ paddingTop: "90px" }}>
-				<Container className="py-5">
+			<section className="hero-section py-4">
+				<Container className="">
 					<h1 className="display-4 fw-bold text-center mb-4">
-						Build Insightful <span>AI Powered</span> <br />
-						User Surveys
+						From Boring Surveys <br />
+						to{" "}
+						<TypeAnimation
+							sequence={[
+								"Conversational Surveys",
+								2000,
+								"Deep Discoveries",
+								2000,
+								"Brilliant Insights",
+								2000,
+							]}
+							wrapper="span"
+							cursor={true}
+							repeat={Infinity}
+							style={{ display: "inline-block" }}
+							className="type-animation"
+						/>
 					</h1>
-					<p className="lead text-center text-muted mb-5">
-						Broad Engagement, Talent Questions, Gain Actionable Insights
+					<p className="lead text-center text-muted mb-4">
+						Let AI ask the right questions personalised to each user, uncovering
+						insights you never knew existed.
 					</p>
 
-					{/* Survey Creation Form */}
-					<Row className="survey-form g-3 justify-content-center mb-6">
+					<Row className="survey-form g-3 justify-content-center">
 						<Col md={8} lg={6}>
 							<Form.Control
 								placeholder="What is the topic of your survey?"
-								className="form-control-lg border-1 py-3"
+								className="form-control-lg border-1"
 							/>
 						</Col>
 						<Col md="auto">
@@ -78,45 +95,43 @@ const LandingPage = () => {
 							</button>
 						</Col>
 					</Row>
-
-					<img
-						src="https://images.unsplash.com/photo-1551288049-bebda4e38f71"
-						alt="AI Analytics"
-						className="img-fluid rounded-4 shadow-lg"
-					/>
 				</Container>
 			</section>
 
-			{/* Steps Section */}
-			<section className="steps-section bg-light py-6">
+			{/* New Steps Cards Section */}
+			<section className="steps-cards py-6">
 				<Container>
-					<Row className="g-5 align-items-center">
-						<Col md={6}>
-							<h3 className="text-center fw-bold mb-6 display-5">
-								How to generate your survey in minutes with AI
-							</h3>
-							{[1, 2, 3, 4].map((step) => (
-								<div key={step} className="d-flex  mb-4">
-									<div className="step-number text-white rounded-3 d-flex align-items-center justify-content-center me-4">
-										{step}
+					<div className="mb-6 text-center">
+						<h2 className="display-5 fw-bold mb-3">How It Works</h2>
+					</div>
+					<Row className="g-4">
+						{[
+							{
+								icon: faPencilAlt,
+								title: "Enter your survey topic",
+								text: "Tell AI what the survey is about. Whether it's customer feedback, market research, or employee satisfaction - just describe your goal.",
+							},
+							{
+								icon: faMessage,
+								title: "Write your first question",
+								text: "Enter the question that kicks off the conversation. Our AI will build everything else from there.",
+							},
+							{
+								icon: faRobot,
+								title: "Let our AI handle the rest",
+								text: "Watch as our AI turns each survey into a unique conversation, asking the perfect follow-up questions.",
+							},
+						].map((step, index) => (
+							<Col lg={4} key={index}>
+								<div className="step-card h-100 p-5 rounded-4 text-center">
+									<div className="icon-wrapper p-4 bg-primary-grey mb-4 rounded-4 mx-auto">
+										<FontAwesomeIcon icon={step.icon} size="2x" />
 									</div>
-									<p className="h5 mb-0 text-muted">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-										do eiusmod tempor incididunt ut labore.
-									</p>
+									<h3 className="h4 fw-bold mb-3">{step.title}</h3>
+									<p className="text-muted mb-0">{step.text}</p>
 								</div>
-							))}
-						</Col>
-						<Col
-							md={6}
-							className="text-center align-items-center justify-content-center order-md-2"
-						>
-							<img
-								src={SideImage}
-								alt="Steps Visual"
-								className="img-fluid rounded-4 shadow mx-auto"
-							/>
-						</Col>
+							</Col>
+						))}
 					</Row>
 				</Container>
 			</section>
@@ -136,19 +151,19 @@ const LandingPage = () => {
 					<Row className="g-4">
 						{[
 							{
-								icon: faPaintBrush,
-								title: "For Designers",
-								text: "Develop user-level solutions that reduce potential damage",
-							},
-							{
-								icon: faCode,
-								title: "For Coders",
-								text: "Design users from full-time technology needed training",
-							},
-							{
 								icon: faUserTie,
-								title: "For Managers",
-								text: "Learn how many designers can be trained on their own",
+								title: "Product Managers",
+								text: "Need to understand why users love (or leave) your product? Create surveys which will tell you exactly why.",
+							},
+							{
+								icon: faPaintBrush,
+								title: "Designers",
+								text: "Tired of shallow usability feedback? Create surveys that adapt to each user's experience, revealing the real story behind every interaction.",
+							},
+							{
+								icon: faRocket,
+								title: "Founders",
+								text: "Making big decisions? Stop guessing what your market wants. Let AI turn every survey into a meaningful customer conversation that shapes your strategy.",
 							},
 						].map((feature, index) => (
 							<Col lg={4} key={index}>
