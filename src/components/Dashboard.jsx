@@ -10,7 +10,7 @@ import {
 	faCaretLeft,
 	faBars,
 } from "@fortawesome/free-solid-svg-icons";
-import main from "../images/main.png";
+import main from "../images/logo.jpeg";
 import {
 	activateCreateSurveyComponent,
 	activateMySurveysComponent,
@@ -81,7 +81,7 @@ function Dashboard() {
 				<div className="sidebar-header">
 					<div className="logo-container">
 						<img src={main} alt="Logo" className="logo" />
-						<span className="logo-text">InsightSurvey.ai</span>
+						<span className="logo-text">Productsuite.ai</span>
 						<button
 							className="sidebar-toggle"
 							onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}

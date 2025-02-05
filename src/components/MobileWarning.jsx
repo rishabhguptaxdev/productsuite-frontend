@@ -16,7 +16,7 @@ const MobileWarning = ({ onProceed }) => {
 			<div className="mobile-warning-content">
 				<h1>📱 Mobile Experience Notice</h1>
 				<p>
-					For the best experience, we recommend using InsightSurvey.ai on a
+					For the best experience, we recommend using Productsuite.ai on a
 					desktop computer. Some features might be limited on mobile devices.
 				</p>
 				<button className="proceed-button" onClick={handleProceed}>

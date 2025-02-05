@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "../css/landingPage.css";
-import NavbarIcon from "../images/main.png";
+import NavbarIcon from "../images/logo.jpeg";
 import { TypeAnimation } from "react-type-animation";
 
 const LandingPage = () => {
@@ -40,7 +40,7 @@ const LandingPage = () => {
 							alt=""
 							className="rounded"
 						/>{" "}
-						InsightSurvey<span>.ai</span>
+						Productsuite<span>.ai</span>
 					</Navbar.Brand>
 					<button
 						className="btn navbarStartButton px-4 py-2 fw-bold"
@@ -141,7 +141,7 @@ const LandingPage = () => {
 				<Container>
 					<div className="mb-6 text-center">
 						<h2 className="display-5 fw-bold mb-3">
-							InsightSurvey AI is designed for everyone
+							Productsuite AI is designed for everyone
 						</h2>
 						<p className="lead text-muted">
 							Use for whatever you want, it's completely free!
@@ -209,7 +209,7 @@ const LandingPage = () => {
 				<Container>
 					<Row className="g-5">
 						<Col lg={12}>
-							<h5 className="fw-bold mb-4">InsightSurvey.ai</h5>
+							<h5 className="fw-bold mb-4">Productsuite.ai</h5>
 							<p className=" text-white">
 								Boost engagement and response rates with AI-personalized
 								surveys. Tailor questions to individual preferences for relevant
