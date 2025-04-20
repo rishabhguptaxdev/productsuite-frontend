@@ -21,25 +21,35 @@ const dashboardSlice = createSlice({
 			state.showSurveyCreated = false;
 			state.showMySurveys = false;
 			state.showViewResponse = false;
+			state.showBotDashboard = false;
 		},
 		activateSurveyCreatedComponent: (state, action) => {
 			state.showCreateSurvey = false;
 			state.showSurveyCreated = true;
 			state.showMySurveys = false;
 			state.showViewResponse = false;
+			state.showBotDashboard = false;
 		},
 		activateMySurveysComponent: (state, action) => {
 			state.showCreateSurvey = false;
 			state.showSurveyCreated = false;
 			state.showMySurveys = true;
 			state.showViewResponse = false;
+			state.showBotDashboard = false;
 		},
 		activateViewResponseComponent: (state, action) => {
-			console.log("activated view response");
 			state.showCreateSurvey = false;
 			state.showSurveyCreated = false;
 			state.showMySurveys = false;
 			state.showViewResponse = true;
+			state.showBotDashboard = false;
+		},
+		activateBotComponent: (state, action) => {
+			state.showCreateSurvey = false;
+			state.showSurveyCreated = false;
+			state.showMySurveys = false;
+			state.showViewResponse = false;
+			state.showBotDashboard = true;
 		},
 		setMySurveysState: (state, action) => {
 			state.mySurveysState = {
@@ -56,5 +66,6 @@ export const {
 	activateSurveyCreatedComponent,
 	activateMySurveysComponent,
 	activateViewResponseComponent,
+	activateBotComponent,
 } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

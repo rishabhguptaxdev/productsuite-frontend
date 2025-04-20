@@ -9,9 +9,11 @@ import {
 	faUser,
 	faCaretLeft,
 	faBars,
+	faRobot,
 } from "@fortawesome/free-solid-svg-icons";
 import main from "../images/logo.jpeg";
 import {
+	activateBotComponent,
 	activateCreateSurveyComponent,
 	activateMySurveysComponent,
 } from "../redux/dashboardSlice";
@@ -21,6 +23,7 @@ import MySurveys from "./MySurveys";
 import ViewResponses from "./ViewResponses";
 import SurveyCreated from "./SurveyCreated";
 import "../css/dashboard.css";
+import BotDashboard from "./Bots/BotDashboard";
 
 function Dashboard() {
 	const [profileImgError, setProfileImgError] = useState(false);
@@ -118,6 +121,19 @@ function Dashboard() {
 							<FontAwesomeIcon icon={faSquarePollVertical} />
 							<span>My Surveys</span>
 						</li>
+						<li
+							// className={
+							// 	useSelector((state) => state.dashboard.showMySurveys)
+							// 		? "active"
+							// 		: ""
+							// }
+							onClick={() => {
+								dispatch(activateBotComponent());
+							}}
+						>
+							<FontAwesomeIcon icon={faRobot} />
+							<span>AI Bot</span>
+						</li>
 					</ul>
 				</nav>
 
@@ -169,6 +185,9 @@ function Dashboard() {
 					)}
 					{useSelector((state) => state.dashboard.showSurveyCreated) && (
 						<SurveyCreated />
+					)}
+					{useSelector((state) => state.dashboard.showBotDashboard) && (
+						<BotDashboard />
 					)}
 				</section>
 			</main>
