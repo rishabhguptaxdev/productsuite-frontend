@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useCallback } from "react"; // Added useCallback
-import axios from "axios";
 import { Accordion } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../css/view_responses.css";
+import "../../styles/surveys/view_responses.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faArrowLeft,
-	faSpinner,
 	faChevronRight,
 	faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
-import { activateMySurveysComponent } from "../redux/dashboardSlice";
+import { activateMySurveysComponent } from "../../redux/dashboardSlice";
 import moment from "moment";
-
-const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
+import { surveyService } from "../../services/surveyService";
+import Loader from "../Loader";
 
 function ViewResponses() {
 	const dispatch = useDispatch();
@@ -33,19 +31,13 @@ function ViewResponses() {
 
 	const fetchResponses = useCallback(async () => {
 		try {
-			const response = await axios.get(
-				`${backendbaseurl}/response/${id}/responses`,
-				{
-					params: {
-						page: pagination.currentPage,
-						limit: pagination.itemsPerPage,
-						sort: pagination.sortField,
-					},
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem("token")}`,
-					},
-				}
-			);
+			const params = {
+				page: pagination.currentPage,
+				limit: pagination.itemsPerPage,
+				sort: pagination.sortField,
+			};
+
+			const response = await surveyService.getResponsesOfSurvey(params, id);
 
 			setResponses(response.data.responses);
 			setPagination((prev) => ({
@@ -62,6 +54,11 @@ function ViewResponses() {
 		pagination.itemsPerPage,
 		pagination.sortField,
 	]);
+
+	const getSurveyDetails = useCallback(async () => {
+		const response = await surveyService.getSurveyDetails(id);
+		setSurveyDetails(response.data);
+	}, [id]);
 
 	const handlePageChange = (newPage) => {
 		if (newPage >= 1 && newPage <= pagination.totalPages) {
@@ -89,16 +86,12 @@ function ViewResponses() {
 	useEffect(() => {
 		const fetchData = async () => {
 			setIsLoading(true);
-			await Promise.all([
-				axios
-					.get(`${backendbaseurl}/survey/${id}`)
-					.then((res) => setSurveyDetails(res.data)),
-				fetchResponses(),
-			]);
+			await Promise.all([getSurveyDetails(), fetchResponses()]);
 			setIsLoading(false);
 		};
 		fetchData();
 	}, [
+		getSurveyDetails,
 		fetchResponses,
 		id,
 		pagination.currentPage,
@@ -107,17 +100,7 @@ function ViewResponses() {
 	]);
 
 	if (isLoading) {
-		return (
-			<div className="loader-container">
-				<FontAwesomeIcon
-					icon={faSpinner}
-					spin
-					size="3x"
-					className="loader-icon"
-				/>
-				<p>Loading survey details...</p>
-			</div>
-		);
+		return <Loader loadingText={"Loading Responses..."}></Loader>;
 	}
 
 	return (

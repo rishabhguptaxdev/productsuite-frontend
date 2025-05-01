@@ -1,6 +1,6 @@
 // components/MobileWarning.js
 import { useNavigate } from "react-router-dom";
-import "../css/mobileWarning.css";
+import "../styles/mobileWarning.css";
 
 const MobileWarning = ({ onProceed }) => {
 	const navigate = useNavigate();

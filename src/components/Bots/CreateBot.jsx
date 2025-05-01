@@ -22,7 +22,7 @@ const CreateBot = () => {
 		e.preventDefault();
 		try {
 			setIsLoading(true);
-			const bot = await botService.createBot(name, description, files);
+			await botService.createBot(name, description, files);
 			// Show success message
 			setSuccessMessage("Bot created successfully!");
 			// Reset form fields

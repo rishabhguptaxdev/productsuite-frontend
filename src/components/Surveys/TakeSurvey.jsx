@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import "../css/take_survey.css";
-import Loader from "./Loader";
-const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
+import "../../styles/surveys/take_survey.css";
+import Loader from "../Loader";
+import { surveyService } from "../../services/surveyService";
 
 function TakeSurvey() {
 	const { id } = useParams();
@@ -17,20 +16,14 @@ function TakeSurvey() {
 	const fetchSurvey = async () => {
 		const getLoggerId = async () => {
 			try {
-				const responseResponse = await axios.post(
-					`${backendbaseurl}/response/getLoggerId/${id}`
-				);
+				const responseResponse = await surveyService.getLoggerId(id);
 				sessionStorage.setItem("loggerId", responseResponse.data.loggerId);
 			} catch (error) {
 				console.error("Error fetching loggerId:", error);
 			}
 		};
 		try {
-			const surveyResponse = await axios.get(`${backendbaseurl}/survey/${id}`, {
-				params: {
-					surveyId: id,
-				},
-			});
+			const surveyResponse = await surveyService.getSurveyResponse(id);
 			setSurvey(surveyResponse.data);
 			if (surveyResponse?.data?.isClosed) {
 				return;
@@ -47,14 +40,7 @@ function TakeSurvey() {
 
 	const getIncompleteSurvey = async (loggerId) => {
 		try {
-			const surveyResponse = await axios.get(
-				`${backendbaseurl}/response/${loggerId}`,
-				{
-					params: {
-						surveyId: id,
-					},
-				}
-			);
+			const surveyResponse = await surveyService.getSurveyByLoggerId(loggerId);
 			const surveyData = {
 				...surveyResponse.data,
 				...surveyResponse?.data?.surveyId,
@@ -95,12 +81,8 @@ function TakeSurvey() {
 
 	const saveResponses = async () => {
 		try {
-			const res = await axios.post(
-				`${backendbaseurl}/response/${sessionStorage.getItem("loggerId")}`,
-				{
-					responses: responses,
-				}
-			);
+			const loggerId = sessionStorage.getItem("loggerId");
+			const res = surveyService.saveResponse(loggerId, responses);
 			return { ...res.data, ...res.data.surveyId };
 		} catch (error) {
 			console.error("Error saving responses:", error);
@@ -156,7 +138,7 @@ function TakeSurvey() {
 			</div>
 		);
 
-	if (!survey) return <Loader />;
+	if (!survey) return <Loader></Loader>;
 
 	return (
 		<div className="survey-container">

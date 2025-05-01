@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "../css/survey_created.css"; // Ensure this path is correct
-import GreenTick from "../images/svgs/greenTick.svg";
+import "../../styles/surveys/survey_created.css"; // Ensure this path is correct
+import GreenTick from "../../images/svgs/greenTick.svg";
 import { useDispatch } from "react-redux";
-import { activateCreateSurveyComponent } from "../redux/dashboardSlice";
+import { activateCreateSurveyComponent } from "../../redux/dashboardSlice";
 
 function SurveyCreated() {
 	const [linkCopied, setLinkCopied] = useState(false);

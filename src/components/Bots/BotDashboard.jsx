@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showCreateBot, showViewBots } from "../../redux/botSlice";
 import CreateBot from "./CreateBot";
 import BotList from "./BotList";
 
-const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
-
 const BotDashboard = () => {
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	useEffect(() => {});

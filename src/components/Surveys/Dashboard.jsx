@@ -11,19 +11,20 @@ import {
 	faBars,
 	faRobot,
 } from "@fortawesome/free-solid-svg-icons";
-import main from "../images/logo.jpeg";
+import main from "../../images/logo.jpeg";
 import {
 	activateBotComponent,
 	activateCreateSurveyComponent,
 	activateMySurveysComponent,
-} from "../redux/dashboardSlice";
+} from "../../redux/dashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
 import CreateSurvey from "./CreateSurvey";
 import MySurveys from "./MySurveys";
 import ViewResponses from "./ViewResponses";
 import SurveyCreated from "./SurveyCreated";
-import "../css/dashboard.css";
-import BotDashboard from "./Bots/BotDashboard";
+import "../../styles/surveys/dashboard.css";
+import BotDashboard from "../Bots/BotDashboard";
+import { authService } from "../../services/authService";
 
 function Dashboard() {
 	const [profileImgError, setProfileImgError] = useState(false);
@@ -48,20 +49,7 @@ function Dashboard() {
 		const fetchToken = async () => {
 			try {
 				const accessToken = await getAccessTokenSilently();
-				const response = await fetch(
-					`${process.env.REACT_APP_BACKEND_URL}/auth/signup-login`,
-					{
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-							Authorization: `Bearer ${accessToken}`,
-						},
-						body: JSON.stringify({
-							email: user.email,
-							auth0Id: user.sub,
-						}),
-					}
-				);
+				const response = await authService.loginSignup(accessToken, user);
 				if (response.ok) {
 					const data = await response.json();
 					localStorage.setItem("token", data.token);

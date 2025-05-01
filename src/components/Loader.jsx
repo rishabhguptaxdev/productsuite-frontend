@@ -1,14 +1,19 @@
-import "../css/loader.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import "../styles/loader.css";
 
-const Loader = () => {
-    return (
-      <div className="loader-container" >
-        <div className="spinner-border" style={{height:'7rem', width:'7rem'}} role="status">
-          <span className="sr-only"></span>
-        </div>
-      </div>
-    );
+const Loader = ({ loadingText = "Loading..." }) => {
+	return (
+		<div className="loader-container">
+			<FontAwesomeIcon
+				icon={faSpinner}
+				spin
+				size="3x"
+				className="loader-icon"
+			/>
+			<p>{loadingText}</p>
+		</div>
+	);
 };
-  
+
 export default Loader;
-  

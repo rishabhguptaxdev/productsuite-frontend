@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
-import "../css/create_survey.css";
+import "../../styles/surveys/create_survey.css";
 import SurveyCreated from "./SurveyCreated";
 import { useDispatch, useSelector } from "react-redux";
-import { activateSurveyCreatedComponent } from "../redux/dashboardSlice";
+import { activateSurveyCreatedComponent } from "../../redux/dashboardSlice";
+import { surveyService } from "../../services/surveyService";
 
-const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 const frontendbaseurl = process.env.REACT_APP_FRONTEND_URL;
 
 function CreateSurvey() {
@@ -28,19 +27,11 @@ function CreateSurvey() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post(
-				`${backendbaseurl}/survey`,
-				{
-					title,
-					description,
-					first_question: firstQuestion,
-					max_questions: maxQuestions,
-				},
-				{
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem("token")}`,
-					},
-				}
+			const response = await surveyService.createSurvey(
+				title,
+				description,
+				firstQuestion,
+				maxQuestions
 			);
 
 			sessionStorage.setItem(

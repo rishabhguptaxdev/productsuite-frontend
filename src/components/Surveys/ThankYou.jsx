@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import "../css/thank_you.css";
-import GreenTick from "../images/svgs/tickMark.svg";
+import "../../styles/surveys/thank_you.css";
+import GreenTick from "../../images/svgs/tickMark.svg";
 
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 

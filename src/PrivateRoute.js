@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import Loader from "./Loader";
-import MobileWarning from "./MobileWarning";
+import Loader from "../src/components/Loader";
+import MobileWarning from "./pages/MobileWarning";
 
 const PrivateRoute = ({ children }) => {
 	const { isAuthenticated, isLoading } = useAuth0();

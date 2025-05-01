@@ -13,9 +13,10 @@ import {
 	faRobot,
 } from "@fortawesome/free-solid-svg-icons";
 
-import "../css/landingPage.css";
+import "../styles/landingPage.css";
 import NavbarIcon from "../images/logo.jpeg";
 import { TypeAnimation } from "react-type-animation";
+import Loader from "../components/Loader";
 
 const LandingPage = () => {
 	const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
@@ -25,7 +26,8 @@ const LandingPage = () => {
 		if (isAuthenticated) navigate("/dashboard");
 	}, [isAuthenticated, navigate]);
 
-	if (isLoading) return <div className="text-center p-5">Loading...</div>;
+	if (isLoading)
+		return <Loader loadingText={"Redirecting to dashboard..."}></Loader>;
 
 	return (
 		<div className="landing-page">

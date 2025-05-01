@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
-import "../css/styles.css";
+import "../../styles/surveys/my_surveys.css";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faLink,
-	faSpinner,
 	faPlusCircle,
 	faClipboard,
 	faChevronLeft,
@@ -17,10 +15,11 @@ import {
 	activateViewResponseComponent,
 	activateCreateSurveyComponent,
 	setMySurveysState,
-} from "../redux/dashboardSlice";
+} from "../../redux/dashboardSlice";
 import ViewResponses from "./ViewResponses";
+import { surveyService } from "../../services/surveyService";
+import Loader from "../Loader";
 
-const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 const frontendbaseurl = process.env.REACT_APP_FRONTEND_URL;
 
 function MySurveys() {
@@ -39,12 +38,7 @@ function MySurveys() {
 				sort: mySurveysState.sortField,
 			};
 
-			const response = await axios.get(`${backendbaseurl}/survey/`, {
-				params,
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
-				},
-			});
+			const response = await surveyService.getAllSurvyes(params);
 
 			setSurveys(response.data.surveys);
 			dispatch(
@@ -75,15 +69,7 @@ function MySurveys() {
 
 	const handleToggleChange = async (surveyId, currentStatus) => {
 		try {
-			await axios.patch(
-				`${backendbaseurl}/survey/${surveyId}/status`,
-				{ isClosed: !currentStatus },
-				{
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem("token")}`,
-					},
-				}
-			);
+			await surveyService.changeSurveyStatus(surveyId, currentStatus);
 			setSurveys((prevSurveys) =>
 				prevSurveys.map((survey) =>
 					survey._id === surveyId
@@ -197,15 +183,7 @@ function MySurveys() {
 			)}
 
 			{isLoading ? (
-				<div className="loader-wrapper">
-					<FontAwesomeIcon
-						icon={faSpinner}
-						spin
-						size="3x"
-						className="loader-icon"
-					/>
-					<p>Loading Surveys...</p>
-				</div>
+				<Loader loadingText={"Loading surveys..."}></Loader>
 			) : (
 				<div className="my-surveys">
 					<h1>Surveys</h1>
