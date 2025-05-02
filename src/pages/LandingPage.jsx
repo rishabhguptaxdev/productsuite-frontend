@@ -1,9 +1,9 @@
+import "../styles/landingPage.css";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Container, Navbar, Form, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// Solid icons
 import {
 	faRocket,
 	faPaintBrush,
@@ -13,8 +13,7 @@ import {
 	faRobot,
 } from "@fortawesome/free-solid-svg-icons";
 
-import "../styles/landingPage.css";
-import NavbarIcon from "../images/logo.jpeg";
+import NavbarIcon from "../assets/images/logo.jpeg";
 import { TypeAnimation } from "react-type-animation";
 import Loader from "../components/Loader";
 

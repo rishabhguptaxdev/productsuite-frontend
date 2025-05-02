@@ -1,3 +1,5 @@
+/* responses.css */
+
 body {
 	font-family: "Arial", sans-serif;
 	background-color: #f5f7fa;
@@ -13,8 +15,8 @@ body {
 	background: white;
 	color: black;
 	margin: 30px;
-	border-radius: 10px;
 	padding: 20px;
+	border-radius: 10px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -36,11 +38,6 @@ body {
 	width: 100%;
 }
 
-.survey-details .table {
-	margin-bottom: 20px;
-	width: 100%;
-}
-
 .survey-details h2 {
 	font-size: 1.5rem;
 	font-weight: bold;
@@ -52,21 +49,26 @@ body {
 	color: #555;
 }
 
+.survey-details .table {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
 .status {
 	padding: 0.2rem 0.5rem;
 	border-radius: 0.2rem;
+	color: white;
 }
 
 .status.active {
 	background-color: #28a745;
-	color: white;
 }
 
 .status.inactive {
 	background-color: #dc3545;
-	color: white;
 }
 
+/* Accordion Section */
 .accordion {
 	width: 100%;
 	background: white;
@@ -136,7 +138,8 @@ body {
 }
 
 .entries-selector,
-.sort-control {
+.sort-control,
+.page-navigation {
 	display: flex;
 	align-items: center;
 	gap: 10px;
@@ -147,12 +150,9 @@ body {
 	padding: 8px 25px;
 	border: 1px solid #dee2e6;
 	border-radius: 4px;
-}
-
-.page-navigation {
-	display: flex;
-	align-items: center;
-	gap: 10px;
+	background: white;
+	color: #333;
+	appearance: none;
 }
 
 .page-navigation button {
@@ -180,7 +180,7 @@ body {
 }
 
 .pagination-icon {
-	color: #333; /* Explicit black color */
+	color: #333;
 	width: 16px !important;
 	height: 16px !important;
 }

@@ -1,3 +1,4 @@
+import "../../styles/surveys/dashboard.css";
 import React, { useEffect, useRef, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +12,7 @@ import {
 	faBars,
 	faRobot,
 } from "@fortawesome/free-solid-svg-icons";
-import main from "../../images/logo.jpeg";
+import main from "../../assets/images/logo.jpeg";
 import {
 	activateBotComponent,
 	activateCreateSurveyComponent,
@@ -22,7 +23,6 @@ import CreateSurvey from "./CreateSurvey";
 import MySurveys from "./MySurveys";
 import ViewResponses from "./ViewResponses";
 import SurveyCreated from "./SurveyCreated";
-import "../../styles/surveys/dashboard.css";
 import BotDashboard from "../Bots/BotDashboard";
 import { authService } from "../../services/authService";
 
@@ -110,11 +110,11 @@ function Dashboard() {
 							<span>My Surveys</span>
 						</li>
 						<li
-							// className={
-							// 	useSelector((state) => state.dashboard.showMySurveys)
-							// 		? "active"
-							// 		: ""
-							// }
+							className={
+								useSelector((state) => state.dashboard.showBotDashboard)
+									? "active"
+									: ""
+							}
 							onClick={() => {
 								dispatch(activateBotComponent());
 							}}

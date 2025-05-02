@@ -1,20 +1,8 @@
-/* create_survey.css */
-
-body {
+create_survey.css body {
 	font-family: "Arial", sans-serif;
 	background-color: #f5f7fa;
 	margin: 0;
 	padding: 0;
-}
-
-.create-survey {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	background: white;
-	color: black;
-	margin: 30px;
 }
 
 .create-survey {
@@ -25,8 +13,9 @@ body {
 	justify-content: center;
 	background: white;
 	color: black;
-	border-radius: 10px;
+	margin: 30px;
 	padding: 20px;
+	border-radius: 10px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -48,52 +37,40 @@ body {
 	text-align: left;
 }
 
-.create-survey .form-group span {
-	color: red;
-}
-
 .create-survey .form-group label {
 	display: block;
 	margin-bottom: 5px;
 }
 
+.create-survey .form-group span {
+	color: red;
+}
+
 .create-survey .form-group input,
-.create-survey .form-group select {
+.create-survey .form-group select,
+.create-survey .form-group textarea {
 	width: 100%;
 	padding: 10px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	box-sizing: border-box;
 	background-color: #f2f2f2;
+	overflow-wrap: break-word;
+	white-space: normal;
+	word-break: break-word;
+	resize: none;
+	font-family: inherit;
+}
+
+.create-survey .form-group textarea {
+	min-height: 100px;
+}
+
+#createDescription {
+	min-height: 60px;
 }
 
 .create-survey .btn-create-survey:disabled {
 	background: #ccc;
 	cursor: not-allowed;
-}
-
-#surveyDescription {
-	min-height: 60px;
-}
-
-/* Ensure text wraps instead of overflowing */
-.create-survey .form-group input,
-.create-survey .form-group textarea,
-.create-survey .form-group select {
-	width: 100%;
-	padding: 10px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	box-sizing: border-box;
-	background-color: #f2f2f2;
-	overflow-wrap: break-word; /* Enable text wrapping */
-	white-space: normal; /* Allow wrapping inside input fields */
-	word-break: break-word; /* Break long words if necessary */
-	resize: none; /* Prevent resizing for consistent UI in textareas */
-}
-
-/* Adjust textarea for multiline input */
-.create-survey .form-group textarea {
-	min-height: 100px;
-	font-family: inherit;
 }

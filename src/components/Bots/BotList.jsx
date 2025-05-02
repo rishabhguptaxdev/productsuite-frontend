@@ -14,8 +14,6 @@ import {
 import { botService } from "../../services/botService";
 import ReactMarkdown from "react-markdown";
 
-const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
-
 const BotList = () => {
 	const [loading, setIsLoading] = useState(false);
 	const [error, setIsError] = useState(false);
@@ -44,30 +42,19 @@ const BotList = () => {
 
 	const handleChatWithBot = (bot) => {
 		setSelectedBot(bot);
-		setChatMessages([]); // Reset the chat messages
+		setChatMessages([]);
 		setOpenDialog(true);
 	};
 
 	const handleSendMessage = async () => {
 		if (message.trim()) {
 			setChatMessages((prev) => [...prev, { sender: "user", text: message }]);
-			setMessage(""); // Clear the input field
+			setMessage("");
 
-			// Send message to bot API
 			try {
 				setIsTyping(true);
 
-				const response = await fetch(
-					`${backendbaseurl}/chat/${selectedBot._id}`,
-					{
-						method: "POST",
-						headers: {
-							Authorization: `Bearer ${localStorage.getItem("token")}`,
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify({ question: message }),
-					}
-				);
+				const response = await botService.sendMessage(selectedBot, message);
 
 				const data = await response.json();
 
@@ -98,7 +85,7 @@ const BotList = () => {
 
 	const handleCloseDialog = () => {
 		setOpenDialog(false);
-		setMessage(""); // Clear message input when closing the dialog
+		setMessage("");
 	};
 
 	if (loading) {
@@ -153,13 +140,12 @@ const BotList = () => {
 				</ul>
 			)}
 
-			{/* Dialog for Chat with Bot */}
 			<Dialog
 				open={openDialog}
 				onClose={handleCloseDialog}
 				fullWidth
-				maxWidth="lg" // Larger dialog box
-				sx={{ height: "100vh" }} // Full height for the dialog
+				maxWidth="lg"
+				sx={{ height: "100vh" }}
 			>
 				<DialogTitle>Chat with {selectedBot?.name}</DialogTitle>
 				<DialogContent

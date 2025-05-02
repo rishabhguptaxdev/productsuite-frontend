@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import "../../styles/surveys/create_survey.css";
+import React, { useState } from "react";
 import SurveyCreated from "./SurveyCreated";
 import { useDispatch, useSelector } from "react-redux";
 import { activateSurveyCreatedComponent } from "../../redux/dashboardSlice";

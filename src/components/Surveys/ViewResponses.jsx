@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react"; // Added useCallback
+import "../../styles/surveys/view_responses.css";
+import React, { useState, useEffect, useCallback } from "react";
 import { Accordion } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../styles/surveys/view_responses.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faArrowLeft,
@@ -26,7 +26,7 @@ function ViewResponses() {
 		itemsPerPage: 5,
 		total: 0,
 		totalPages: 1,
-		sortField: "createdAt", // Default sort by creation date
+		sortField: "createdAt",
 	});
 
 	const fetchResponses = useCallback(async () => {

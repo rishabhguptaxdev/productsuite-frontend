@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showCreateBot, showViewBots } from "../../redux/botSlice";
 import CreateBot from "./CreateBot";
@@ -6,8 +6,6 @@ import BotList from "./BotList";
 
 const BotDashboard = () => {
 	const dispatch = useDispatch();
-
-	useEffect(() => {});
 
 	return (
 		<>

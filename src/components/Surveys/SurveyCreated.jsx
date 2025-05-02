@@ -1,6 +1,6 @@
+import "../../styles/surveys/survey_created.css";
 import React, { useState } from "react";
-import "../../styles/surveys/survey_created.css"; // Ensure this path is correct
-import GreenTick from "../../images/svgs/greenTick.svg";
+import GreenTick from "../../assets/svgs/greenTick.svg";
 import { useDispatch } from "react-redux";
 import { activateCreateSurveyComponent } from "../../redux/dashboardSlice";
 

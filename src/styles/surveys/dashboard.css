@@ -21,7 +21,6 @@
 	position: relative;
 }
 
-/* Sidebar Styles */
 .sidebar {
 	width: var(--sidebar-width);
 	height: 100vh;
@@ -45,6 +44,9 @@
 	position: relative;
 	min-height: 80px;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 
 .logo-container {
@@ -52,35 +54,43 @@
 	align-items: center;
 	gap: 12px;
 	width: 100%;
-	padding-right: 60px; /* Increased from 40px */
+	padding-right: 30px;
 	position: relative;
 }
 
-.logo-container img {
+.logo-container img,
+.logo {
 	height: 35px;
 	width: 35px;
 	object-fit: contain;
 	border-radius: 100px;
+	flex-shrink: 0;
 }
 
 .logo-text {
 	font-size: 1.2rem;
 	font-weight: 600;
 	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	flex-shrink: 1;
-	min-width: 0; /* Allows text truncation */
 	transition: opacity var(--transition-time) ease;
+	overflow: visible;
+	text-overflow: clip;
+	flex-shrink: 0;
 }
 
 .sidebar.collapsed .logo-text {
+	display: none;
 	opacity: 0;
+}
+
+.sidebar.collapsed .logo-container {
+	flex-direction: column;
+	gap: 8px;
+	padding-right: 15px;
 }
 
 .sidebar-toggle {
 	position: absolute;
-	right: 20px; /* Increased from 15px */
+	right: 15px;
 	top: 50%;
 	transform: translateY(-50%);
 	background: transparent;
@@ -88,15 +98,23 @@
 	color: var(--text-color);
 	cursor: pointer;
 	padding: 5px;
-	z-index: 1001;
 	width: 24px;
 	height: 24px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	z-index: 1001;
+	transition: all var(--transition-time) ease;
 }
 
-/* Navigation */
+.sidebar.collapsed .sidebar-toggle {
+	position: relative;
+	right: auto;
+	top: auto;
+	transform: none;
+	margin-top: 10px;
+}
+
 .sidebar-nav {
 	flex: 1;
 	padding: 20px 0;
@@ -144,7 +162,15 @@
 	flex-shrink: 0;
 }
 
-/* Profile Section */
+.sidebar.collapsed .sidebar-nav li {
+	justify-content: center;
+	padding: 12px;
+}
+
+.sidebar.collapsed .sidebar-nav li span {
+	display: none;
+}
+
 .sidebar-profile {
 	margin-top: auto;
 	padding: 20px;
@@ -175,6 +201,14 @@
 	height: 35px;
 	border-radius: 50%;
 	object-fit: cover;
+}
+
+.sidebar.collapsed .profile-toggle {
+	justify-content: center;
+}
+
+.sidebar.collapsed .profile-toggle span {
+	display: none;
 }
 
 .dropdown-menu {
@@ -216,9 +250,9 @@
 
 .dropdown-item:hover {
 	cursor: pointer;
+	background: var(--hover-bg);
 }
 
-/* Main Content */
 .main-content {
 	margin-left: var(--sidebar-width);
 	width: calc(100% - var(--sidebar-width));
@@ -232,24 +266,6 @@
 	width: calc(100% - var(--sidebar-collapsed));
 }
 
-/* Collapsed State */
-.sidebar.collapsed {
-	.sidebar-nav li span,
-	.profile-toggle span {
-		display: none;
-	}
-
-	.sidebar-nav li {
-		justify-content: center;
-		padding: 12px;
-	}
-
-	.profile-toggle {
-		justify-content: center;
-	}
-}
-
-/* Content Responsiveness */
 .content {
 	max-width: 1200px;
 	margin: 0 auto;
@@ -264,81 +280,4 @@
 	.content {
 		padding: 10px;
 	}
-}
-
-.sidebar.collapsed .logo-container {
-	padding-right: 40px;
-}
-
-/* dashboard.css */
-/* Update logo container styles */
-.logo-container {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	width: 100%;
-	padding-right: 30px;
-	position: relative;
-}
-
-.logo-text {
-	font-size: 1.2rem;
-	font-weight: 600;
-	white-space: nowrap;
-	transition: opacity var(--transition-time) ease;
-	/* Remove text truncation */
-	overflow: visible;
-	text-overflow: clip;
-	flex-shrink: 0;
-}
-
-/* Toggle button positioning */
-.sidebar-toggle {
-	position: absolute;
-	right: 15px;
-	top: 50%;
-	transform: translateY(-50%);
-	background: transparent;
-	border: none;
-	color: var(--text-color);
-	cursor: pointer;
-	padding: 5px;
-	z-index: 1001;
-	transition: all var(--transition-time) ease;
-}
-
-/* Collapsed state adjustments */
-.sidebar.collapsed {
-	.logo-container {
-		flex-direction: column;
-		gap: 8px;
-		padding-right: 15px;
-	}
-
-	.logo-text {
-		display: none;
-	}
-
-	.sidebar-toggle {
-		position: relative;
-		right: auto;
-		top: auto;
-		transform: none;
-		margin-top: 10px;
-	}
-
-	.sidebar-header {
-		min-height: auto;
-		padding: 20px 15px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-}
-
-/* Ensure logo image remains centered */
-.logo {
-	width: 35px;
-	height: 35px;
-	flex-shrink: 0;
 }

@@ -1,11 +1,9 @@
+import "../../styles/surveys/thank_you.css";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
-import "../../styles/surveys/thank_you.css";
-import GreenTick from "../../images/svgs/tickMark.svg";
-
-const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
+import GreenTick from "../../assets/svgs/tickMark.svg";
+import { surveyService } from "../../services/surveyService";
 
 const ThankYouPage = () => {
 	const [rating, setRating] = useState(0);
@@ -15,14 +13,7 @@ const ThankYouPage = () => {
 
 	const saveSurveyExperience = async () => {
 		try {
-			const res = await axios.patch(
-				`${backendbaseurl}/response/surveyExperience`,
-				{
-					surveyResponseId: sessionStorage.getItem("loggerId"),
-					rating,
-					comments: feedback,
-				}
-			);
+			const res = await surveyService.saveSurveyExperience(rating, feedback);
 
 			if (res.status === 200) {
 				console.log("submitted");

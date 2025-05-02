@@ -1,6 +1,6 @@
+import "../styles/loader.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import "../styles/loader.css";
 
 const Loader = ({ loadingText = "Loading..." }) => {
 	return (

@@ -1,14 +1,13 @@
-// components/MobileWarning.js
-import { useNavigate } from "react-router-dom";
 import "../styles/mobileWarning.css";
+import { useNavigate } from "react-router-dom";
 
 const MobileWarning = ({ onProceed }) => {
 	const navigate = useNavigate();
 
 	const handleProceed = () => {
 		localStorage.setItem("mobileWarningDismissed", "true");
-		onProceed(); // Update parent state first
-		navigate("/dashboard", { replace: true }); // Replace history entry
+		onProceed();
+		navigate("/dashboard", { replace: true });
 	};
 
 	return (

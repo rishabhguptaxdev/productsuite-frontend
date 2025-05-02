@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
 import "../../styles/surveys/my_surveys.css";
+import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -64,7 +64,7 @@ function MySurveys() {
 		setShowCopiedMessage(true);
 		setTimeout(() => {
 			setShowCopiedMessage(false);
-		}, 2000); // Show for 2 seconds
+		}, 2000);
 	};
 
 	const handleToggleChange = async (surveyId, currentStatus) => {
@@ -170,7 +170,7 @@ function MySurveys() {
 								onClick={() => handlePageChange(mySurveysState.currentPage + 1)}
 								disabled={
 									mySurveysState.currentPage >= mySurveysState.totalPages
-								} // Changed this line
+								}
 							>
 								<FontAwesomeIcon
 									icon={faChevronRight}

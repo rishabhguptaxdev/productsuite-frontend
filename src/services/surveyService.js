@@ -3,7 +3,6 @@ import axios from "axios";
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 
 export const surveyService = {
-	// Get all surveys
 	getAllSurvyes: async (params) => {
 		try {
 			const response = await axios.get(`${backendbaseurl}/survey/`, {
@@ -19,7 +18,6 @@ export const surveyService = {
 		}
 	},
 
-	// Change status of survey
 	changeSurveyStatus: async (surveyId, currentStatus) => {
 		try {
 			await axios.patch(
@@ -36,7 +34,6 @@ export const surveyService = {
 		}
 	},
 
-	// Create new survey
 	createSurvey: async (title, description, firstQuestion, maxQuestions) => {
 		try {
 			const response = await axios.post(
@@ -115,6 +112,18 @@ export const surveyService = {
 			}
 		);
 
+		return response;
+	},
+
+	saveSurveyExperience: async (rating, feedback) => {
+		const response = await axios.patch(
+			`${backendbaseurl}/response/surveyExperience`,
+			{
+				surveyResponseId: sessionStorage.getItem("loggerId"),
+				rating,
+				comments: feedback,
+			}
+		);
 		return response;
 	},
 };

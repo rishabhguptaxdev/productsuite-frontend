@@ -11,8 +11,8 @@ const dashboardSlice = createSlice({
 			currentPage: 1,
 			itemsPerPage: 5,
 			sortField: "_id",
-			total: 0, // Add these
-			totalPages: 1, // Add these
+			total: 0,
+			totalPages: 1,
 		},
 	},
 	reducers: {

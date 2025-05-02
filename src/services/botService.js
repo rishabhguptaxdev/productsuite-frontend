@@ -3,7 +3,6 @@ import axios from "axios";
 const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 
 export const botService = {
-	// Fetch user's bots
 	fetchBots: async () => {
 		try {
 			const response = await axios.get(`${backendbaseurl}/bots`, {
@@ -18,7 +17,6 @@ export const botService = {
 		}
 	},
 
-	// Create new bot
 	createBot: async (name, description, files) => {
 		try {
 			const formData = new FormData();
@@ -40,5 +38,18 @@ export const botService = {
 		} catch (err) {
 			throw err;
 		}
+	},
+
+	sendMessage: async (selectedBot, message) => {
+		const response = await fetch(`${backendbaseurl}/chat/${selectedBot._id}`, {
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem("token")}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ question: message }),
+		});
+
+		return response;
 	},
 };
