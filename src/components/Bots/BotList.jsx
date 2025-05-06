@@ -1,205 +1,191 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { botService } from "../../services/botService";
+import { setBots, setLoading, setError } from "../../redux/botSlice";
+import ChatInterface from "./ChatInterface";
 import {
 	Box,
-	CircularProgress,
 	Typography,
-	Paper,
+	Card,
+	CardContent,
 	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	TextField,
-	DialogTitle,
+	CircularProgress,
+	Avatar,
+	Chip,
+	Divider,
+	Skeleton,
 } from "@mui/material";
-import { botService } from "../../services/botService";
-import ReactMarkdown from "react-markdown";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 const BotList = () => {
-	const [loading, setIsLoading] = useState(false);
-	const [error, setIsError] = useState(false);
-	const [bots, setBots] = useState([]);
-	const [openDialog, setOpenDialog] = useState(false);
-	const [selectedBot, setSelectedBot] = useState(null);
-	const [message, setMessage] = useState("");
-	const [chatMessages, setChatMessages] = useState([]);
-	const [istyping, setIsTyping] = useState(false);
+	const dispatch = useDispatch();
+	const { bots, loading, error } = useSelector((state) => state.bot);
+	const [selectedBot, setSelectedBot] = React.useState(null);
 
 	useEffect(() => {
-		const getBots = async () => {
+		const fetchBots = async () => {
 			try {
-				setIsLoading(true);
+				dispatch(setLoading(true));
 				const response = await botService.fetchBots();
-				setBots(response);
-			} catch (err) {
-				console.log(err);
-				setIsError(true);
+				dispatch(setBots(response));
+			} catch (error) {
+				dispatch(setError(error.message));
 			} finally {
-				setIsLoading(false);
+				dispatch(setLoading(false));
 			}
 		};
-		getBots();
-	}, []);
 
-	const handleChatWithBot = (bot) => {
-		setSelectedBot(bot);
-		setChatMessages([]);
-		setOpenDialog(true);
-	};
-
-	const handleSendMessage = async () => {
-		if (message.trim()) {
-			setChatMessages((prev) => [...prev, { sender: "user", text: message }]);
-			setMessage("");
-
-			try {
-				setIsTyping(true);
-
-				const response = await botService.sendMessage(selectedBot, message);
-
-				const data = await response.json();
-
-				if (data.answer) {
-					setChatMessages((prev) => [
-						...prev,
-						{ sender: "bot", text: data.answer },
-					]);
-				} else {
-					setChatMessages((prev) => [
-						...prev,
-						{ sender: "bot", text: "Sorry, I couldn't understand that." },
-					]);
-				}
-			} catch (err) {
-				setChatMessages((prev) => [
-					...prev,
-					{
-						sender: "bot",
-						text: "There was an error communicating with the bot.",
-					},
-				]);
-			} finally {
-				setIsTyping(false);
-			}
-		}
-	};
-
-	const handleCloseDialog = () => {
-		setOpenDialog(false);
-		setMessage("");
-	};
-
-	if (loading) {
-		return (
-			<Box
-				display="flex"
-				justifyContent="center"
-				alignItems="center"
-				minHeight="200px"
-			>
-				<CircularProgress />
-			</Box>
-		);
-	}
+		fetchBots();
+	}, [dispatch]);
 
 	if (error) {
 		return (
 			<Box
-				display="flex"
-				justifyContent="center"
-				alignItems="center"
-				minHeight="200px"
+				sx={{
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					justifyContent: "center",
+					minHeight: "300px",
+					textAlign: "center",
+				}}
 			>
-				<Typography color="error">{error}</Typography>
+				<ErrorOutlineIcon sx={{ fontSize: 48, color: "error.main", mb: 2 }} />
+				<Typography variant="h6" color="error" sx={{ mb: 1 }}>
+					Failed to load bots
+				</Typography>
+				<Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+					{error}
+				</Typography>
+				<Button
+					variant="contained"
+					onClick={() => window.location.reload()}
+					sx={{ textTransform: "none" }}
+				>
+					Try Again
+				</Button>
 			</Box>
 		);
 	}
 
 	return (
-		<Paper elevation={3} sx={{ p: 3, maxWidth: 600, mx: "auto" }}>
-			<Typography variant="h5" gutterBottom>
-				List of Bots
+		<Box>
+			<Typography variant="h5" component="h2" sx={{ mb: 3, fontWeight: 600 }}>
+				Your Bots
 			</Typography>
-			{bots.length === 0 ? (
-				<Typography variant="body1">No bots available</Typography>
-			) : (
-				<ul>
-					{bots.map((bot) => (
-						<li key={bot._id}>
-							<Typography variant="body1">
-								{bot.name} - {bot.description}
-							</Typography>
-							<Button
-								variant="outlined"
-								color="primary"
-								onClick={() => handleChatWithBot(bot)}
-							>
-								Chat with Bot
-							</Button>
-						</li>
+
+			{loading && !bots.length ? (
+				<Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+					{[1, 2].map((item) => (
+						<Skeleton
+							key={item}
+							variant="rectangular"
+							height={120}
+							sx={{ borderRadius: 2 }}
+						/>
 					))}
-				</ul>
+				</Box>
+			) : bots.length === 0 ? (
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+						justifyContent: "center",
+						minHeight: "300px",
+						textAlign: "center",
+					}}
+				>
+					<ChatBubbleOutlineIcon
+						sx={{ fontSize: 48, color: "text.secondary", mb: 2 }}
+					/>
+					<Typography variant="h6" sx={{ mb: 1 }}>
+						No bots available
+					</Typography>
+					<Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+						Create your first bot to get started
+					</Typography>
+				</Box>
+			) : (
+				<Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3 }}>
+					{bots.map((bot) => (
+						<Card
+							key={bot.id}
+							sx={{
+								borderRadius: 2,
+								boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+								transition: "transform 0.2s, box-shadow 0.2s",
+								"&:hover": {
+									transform: "translateY(-2px)",
+									boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+								},
+							}}
+						>
+							<CardContent sx={{ p: 3 }}>
+								<Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+									<Avatar
+										sx={{
+											bgcolor: "primary.main",
+											mr: 2,
+											width: 40,
+											height: 40,
+										}}
+									>
+										{bot.name.charAt(0)}
+									</Avatar>
+									<Box>
+										<Typography variant="h6" sx={{ fontWeight: 600 }}>
+											{bot.name}
+										</Typography>
+										<Chip
+											label={bot.status}
+											size="small"
+											color={bot.status === "Active" ? "success" : "warning"}
+											sx={{ height: 20, fontSize: "0.7rem" }}
+										/>
+									</Box>
+								</Box>
+
+								<Typography
+									variant="body2"
+									sx={{ mb: 2, color: "text.secondary" }}
+								>
+									{bot.description}
+								</Typography>
+
+								<Divider sx={{ my: 2 }} />
+
+								<Box
+									sx={{
+										display: "flex",
+										justifyContent: "space-between",
+										alignItems: "center",
+									}}
+								>
+									<Button
+										variant="contained"
+										size="small"
+										onClick={() => setSelectedBot(bot)}
+										sx={{
+											textTransform: "none",
+											borderRadius: "20px",
+											px: 2,
+										}}
+									>
+										Chat
+									</Button>
+								</Box>
+							</CardContent>
+						</Card>
+					))}
+				</Box>
 			)}
 
-			<Dialog
-				open={openDialog}
-				onClose={handleCloseDialog}
-				fullWidth
-				maxWidth="lg"
-				sx={{ height: "100vh" }}
-			>
-				<DialogTitle>Chat with {selectedBot?.name}</DialogTitle>
-				<DialogContent
-					sx={{ height: "80vh", display: "flex", flexDirection: "column" }}
-				>
-					<Box sx={{ flex: 1, overflowY: "auto" }}>
-						{chatMessages.map((msg, index) => (
-							<Box
-								key={index}
-								sx={{
-									mb: 2,
-									textAlign: msg.sender === "user" ? "right" : "left",
-								}}
-							>
-								<Typography variant="body1">
-									{msg.sender === "user" ? "You" : "Bot"}:
-								</Typography>
-								<ReactMarkdown>{msg.text}</ReactMarkdown>
-							</Box>
-						))}
-
-						{istyping && (
-							<Box sx={{ textAlign: "center", mt: 2 }}>
-								<Typography variant="body1" color="textSecondary">
-									Bot is typing...
-								</Typography>
-							</Box>
-						)}
-					</Box>
-
-					<TextField
-						label="Type a message"
-						variant="outlined"
-						fullWidth
-						value={message}
-						onChange={(e) => setMessage(e.target.value)}
-						onKeyDown={(e) => {
-							if (e.key === "Enter") {
-								handleSendMessage();
-							}
-						}}
-						sx={{ mt: 2 }}
-					/>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleCloseDialog} color="secondary">
-						Close
-					</Button>
-					<Button onClick={handleSendMessage} color="primary">
-						Send
-					</Button>
-				</DialogActions>
-			</Dialog>
-		</Paper>
+			{selectedBot && (
+				<ChatInterface bot={selectedBot} onClose={() => setSelectedBot(null)} />
+			)}
+		</Box>
 	);
 };
 
