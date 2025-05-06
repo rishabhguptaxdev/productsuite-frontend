@@ -7,14 +7,7 @@ import {
 } from "../../redux/botSlice";
 import CreateBot from "./CreateBot";
 import BotList from "./BotList";
-import {
-	Box,
-	Button,
-	Typography,
-	Divider,
-	Snackbar,
-	Alert,
-} from "@mui/material";
+import { Box, Button, Typography, Snackbar, Alert } from "@mui/material";
 
 const BotDashboard = () => {
 	const dispatch = useDispatch();

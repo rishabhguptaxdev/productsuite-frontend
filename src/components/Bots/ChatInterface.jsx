@@ -12,7 +12,6 @@ import {
 	List,
 	ListItem,
 	ListItemAvatar,
-	ListItemText,
 	Divider,
 	Chip,
 	Tooltip,
@@ -27,8 +26,6 @@ import {
 	FullscreenExit as FullscreenExitIcon,
 	SmartToy as SmartToyIcon,
 	Person as PersonIcon,
-	Mood as MoodIcon,
-	AttachFile as AttachFileIcon,
 } from "@mui/icons-material";
 import { botService } from "../../services/botService";
 
