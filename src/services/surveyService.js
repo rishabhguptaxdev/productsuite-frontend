@@ -37,7 +37,7 @@ export const surveyService = {
 	createSurvey: async (title, description, firstQuestion, maxQuestions) => {
 		try {
 			const response = await axios.post(
-				`${backendbaseurl}/survey`,
+				`${backendbaseurl}/survey/`,
 				{
 					title,
 					description,
