@@ -29,10 +29,10 @@ import {
 } from "@mui/icons-material";
 import { botService } from "../../services/botService";
 
-const ChatInterface = ({ bot, onClose }) => {
+const ChatInterface = ({ bot, onClose, forceFullScreen = false }) => {
 	const [messages, setMessages] = useState([]);
 	const [input, setInput] = useState("");
-	const [isFullScreen, setIsFullScreen] = useState(false);
+	const [isFullScreen, setIsFullScreen] = useState(forceFullScreen);
 	const [isTyping, setIsTyping] = useState(false);
 	const messagesEndRef = useRef(null);
 	const inputRef = useRef(null);
@@ -100,7 +100,9 @@ const ChatInterface = ({ bot, onClose }) => {
 	};
 
 	const toggleFullScreen = () => {
-		setIsFullScreen(!isFullScreen);
+		if (!forceFullScreen) {
+			setIsFullScreen(!isFullScreen);
+		}
 	};
 
 	return (
@@ -148,20 +150,25 @@ const ChatInterface = ({ bot, onClose }) => {
 						</Box>
 					)}
 				</Box>
+
 				<Box>
-					<Tooltip title={isFullScreen ? "Exit fullscreen" : "Fullscreen"}>
-						<IconButton
-							onClick={toggleFullScreen}
-							sx={{ color: "inherit", mr: 1 }}
-						>
-							{isFullScreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
-						</IconButton>
-					</Tooltip>
-					<Tooltip title="Close chat">
-						<IconButton onClick={onClose} sx={{ color: "inherit" }}>
-							<CloseIcon />
-						</IconButton>
-					</Tooltip>
+					{!forceFullScreen && (
+						<>
+							<Tooltip title={isFullScreen ? "Exit fullscreen" : "Fullscreen"}>
+								<IconButton
+									onClick={toggleFullScreen}
+									sx={{ color: "inherit", mr: 1 }}
+								>
+									{isFullScreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+								</IconButton>
+							</Tooltip>
+							<Tooltip title="Close chat">
+								<IconButton onClick={onClose} sx={{ color: "inherit" }}>
+									<CloseIcon />
+								</IconButton>
+							</Tooltip>
+						</>
+					)}
 				</Box>
 			</Box>
 

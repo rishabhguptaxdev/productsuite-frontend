@@ -6,6 +6,7 @@ import ThankYou from "./components/Surveys/ThankYou";
 import ViewResponses from "./components/Surveys/ViewResponses";
 import LandingPage from "./pages/LandingPage";
 import PrivateRoute from "./PrivateRoute";
+import ChatPage from "./pages/ChatPage";
 
 function App() {
 	return (
@@ -23,6 +24,7 @@ function App() {
 				<Route path="/take_survey/:id" element={<TakeSurvey />} />
 				<Route path="/thank-you" element={<ThankYou />} />
 				<Route path="/survey/:id/responses" element={<ViewResponses />} />
+				<Route path="/chat_with_bot/:botId" element={<ChatPage />} />
 			</Routes>
 		</Router>
 	);

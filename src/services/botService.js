@@ -5,7 +5,7 @@ const backendbaseurl = process.env.REACT_APP_BACKEND_URL;
 export const botService = {
 	fetchBots: async () => {
 		try {
-			const response = await axios.get(`${backendbaseurl}/bots`, {
+			const response = await axios.get(`${backendbaseurl}/bots/`, {
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem("token")}`,
 				},
@@ -27,7 +27,7 @@ export const botService = {
 				formData.append("documents", file);
 			});
 
-			const response = await axios.post(`${backendbaseurl}/bots`, formData, {
+			const response = await axios.post(`${backendbaseurl}/bots/`, formData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
 					Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -51,5 +51,34 @@ export const botService = {
 		});
 
 		return response;
+	},
+
+	getBotById: async (botId) => {
+		const response = await axios.get(`${backendbaseurl}/bots/${botId}`, {
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem("token")}`,
+				"Content-Type": "application/json",
+			},
+		});
+
+		return response;
+	},
+
+	getPublicBotById: async (botId) => {
+		const response = await axios.get(`${backendbaseurl}/bots/public/${botId}`);
+
+		return response.data;
+	},
+
+	toggleShareable: async (botId, isShareable) => {
+		return await axios.put(
+			`${backendbaseurl}/bots/${botId}`,
+			{ isShareable },
+			{
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem("token")}`,
+				},
+			}
+		);
 	},
 };

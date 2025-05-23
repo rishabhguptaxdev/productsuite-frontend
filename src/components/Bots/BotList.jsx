@@ -13,14 +13,49 @@ import {
 	Chip,
 	Divider,
 	Skeleton,
+	IconButton,
+	Switch,
+	Snackbar,
 } from "@mui/material";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import Tooltip from "@mui/material/Tooltip";
 
 const BotList = () => {
 	const dispatch = useDispatch();
 	const { bots, loading, error } = useSelector((state) => state.bot);
 	const [selectedBot, setSelectedBot] = React.useState(null);
+
+	const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+	const [snackbarMsg, setSnackbarMsg] = React.useState("");
+
+	const handleCopyLink = (botId) => {
+		const url = `${window.location.origin}/chat_with_bot/${botId}`;
+		navigator.clipboard.writeText(url);
+		setSnackbarMsg("Link copied!");
+		setSnackbarOpen(true);
+	};
+
+	const handleToggleShareable = async (bot) => {
+		try {
+			await botService.toggleShareable(bot._id, !bot.isShareable);
+			dispatch(
+				setBots(
+					bots.map((b) =>
+						b._id === bot._id ? { ...b, isShareable: !b.isShareable } : b
+					)
+				)
+			);
+			setSnackbarMsg(
+				`Bot is now ${!bot.isShareable ? "shareable" : "private"}`
+			);
+			setSnackbarOpen(true);
+		} catch (err) {
+			setSnackbarMsg("Failed to update shareable status");
+			setSnackbarOpen(true);
+		}
+	};
 
 	useEffect(() => {
 		const fetchBots = async () => {
@@ -110,7 +145,7 @@ const BotList = () => {
 				<Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3 }}>
 					{bots.map((bot) => (
 						<Card
-							key={bot.id}
+							key={bot._id}
 							sx={{
 								borderRadius: 2,
 								boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
@@ -140,7 +175,13 @@ const BotList = () => {
 										<Chip
 											label={bot.status}
 											size="small"
-											color={bot.status === "Active" ? "success" : "warning"}
+											color={
+												bot.status === "ready"
+													? "success"
+													: bot.status === "failed"
+													? "error"
+													: "warning"
+											}
 											sx={{ height: 20, fontSize: "0.7rem" }}
 										/>
 									</Box>
@@ -157,29 +198,68 @@ const BotList = () => {
 
 								<Box
 									sx={{
-										display: "flex",
-										justifyContent: "space-between",
+										display: "grid",
+										gridTemplateColumns: "1fr 1fr 1fr",
 										alignItems: "center",
+										gap: 2,
+										mt: 2,
 									}}
 								>
 									<Button
 										variant="contained"
 										size="small"
 										onClick={() => setSelectedBot(bot)}
+										disabled={bot.status !== "ready"}
 										sx={{
 											textTransform: "none",
 											borderRadius: "20px",
-											px: 2,
+											width: "100%",
 										}}
 									>
 										Chat
 									</Button>
+
+									<Tooltip title="Make bot shareable">
+										<Switch
+											checked={bot.isShareable}
+											onChange={() => handleToggleShareable(bot)}
+											color="primary"
+											size="small"
+											sx={{ mx: "auto" }}
+											disabled={bot.status !== "ready"}
+										/>
+									</Tooltip>
+
+									<Tooltip title="Copy shareable link">
+										<IconButton
+											onClick={() => handleCopyLink(bot._id)}
+											size="small"
+											color="primary"
+											sx={{
+												border: "1px solid",
+												borderColor: "divider",
+												borderRadius: 1,
+												padding: "6px",
+												mx: "auto",
+											}}
+											disabled={bot.status !== "ready" || !bot.isShareable}
+										>
+											<ContentCopyIcon fontSize="small" />
+										</IconButton>
+									</Tooltip>
 								</Box>
 							</CardContent>
 						</Card>
 					))}
 				</Box>
 			)}
+
+			<Snackbar
+				open={snackbarOpen}
+				autoHideDuration={3000}
+				onClose={() => setSnackbarOpen(false)}
+				message={snackbarMsg}
+			/>
 
 			{selectedBot && (
 				<ChatInterface bot={selectedBot} onClose={() => setSelectedBot(null)} />
