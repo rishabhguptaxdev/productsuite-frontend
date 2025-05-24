@@ -7,12 +7,14 @@ import ViewResponses from "./components/Surveys/ViewResponses";
 import LandingPage from "./pages/LandingPage";
 import PrivateRoute from "./PrivateRoute";
 import ChatPage from "./pages/ChatPage";
+import SurveyLandingPage from "./pages/SurveyLandingPage";
 
 function App() {
 	return (
 		<Router>
 			<Routes>
 				<Route path="/" element={<LandingPage />} />
+				<Route path="/survey" element={<SurveyLandingPage />} />
 				<Route
 					path="/dashboard/*"
 					element={

@@ -2,23 +2,22 @@ import "../styles/landingPage.css";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Container, Navbar, Row, Col } from "react-bootstrap";
+import { Container, Navbar, Form, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faRocket,
+	faPaintBrush,
 	faUserTie,
 	faMessage,
-	faUpload,
-	faShareAlt,
-	faArrowTrendUp,
-	faHeadset,
+	faPencilAlt,
+	faRobot,
 } from "@fortawesome/free-solid-svg-icons";
 
 import NavbarIcon from "../assets/images/logo.jpeg";
 import { TypeAnimation } from "react-type-animation";
 import Loader from "../components/Loader";
 
-const LandingPage = () => {
+const SurveyLandingPage = () => {
 	const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
 	const navigate = useNavigate();
 
@@ -57,15 +56,15 @@ const LandingPage = () => {
 			<section className="hero-section py-4">
 				<Container className="">
 					<h1 className="display-4 fw-bold text-center mb-4">
-						From static documents <br />
+						From Boring Surveys <br />
 						to{" "}
 						<TypeAnimation
 							sequence={[
-								"Smart Assistants",
+								"Conversational Surveys",
 								2000,
-								"Instant Answers",
+								"Deep Discoveries",
 								2000,
-								"Smarter Teams",
+								"Brilliant Insights",
 								2000,
 							]}
 							wrapper="span"
@@ -76,24 +75,24 @@ const LandingPage = () => {
 						/>
 					</h1>
 					<p className="lead text-center text-muted mb-4">
-						No more hunting through documents - AI delivers instant answers to
-						your support and sales teams.
+						Let AI ask the right questions personalised to each user, uncovering
+						insights you never knew existed.
 					</p>
 
 					<Row className="survey-form g-3 justify-content-center">
-						{/* <Col md={8} lg={6}>
+						<Col md={8} lg={6}>
 							<Form.Control
-								placeholder="Upload Your PDF..."
+								placeholder="What is the topic of your survey?"
 								className="form-control-lg border-1"
 							/>
-						</Col> */}
+						</Col>
 						<Col md="auto">
 							<button
 								className="btn heroSectionCreateSurveyButton btn-lg px-5 py-3 fw-semibold d-flex align-items-center justify-content-center"
 								onClick={() => loginWithRedirect()}
 							>
 								<FontAwesomeIcon icon={faRocket} className="me-3" />
-								Create Your Bot
+								Create Survey
 							</button>
 						</Col>
 					</Row>
@@ -109,19 +108,19 @@ const LandingPage = () => {
 					<Row className="g-4">
 						{[
 							{
-								icon: faUpload,
-								title: "Upload your documents",
-								text: "Upload your manuals, FAQs, policies, and training materials. Whether it's product documentation, customer support guides, or sales playbooks - just add your existing documents and let our AI understand your content.",
+								icon: faPencilAlt,
+								title: "Enter your survey topic",
+								text: "Tell AI what the survey is about. Whether it's customer feedback, market research, or employee satisfaction - just describe your goal.",
 							},
 							{
 								icon: faMessage,
-								title: "AI Builds Your Expert Bot",
-								text: "Our advanced AI doesn't just read your content - it understands it. Within seconds, you'll have an intelligent bot that knows your products, policies, and processes inside out, ready to provide accurate, contextual answers to your questions.",
+								title: "Write your first question",
+								text: "Enter the question that kicks off the conversation. Our AI will build everything else from there.",
 							},
 							{
-								icon: faShareAlt,
-								title: "Deploy Across Your Organization",
-								text: "Generate secure, shareable links or embed directly into your workflow. Support agents get instant answers to customer queries, sales teams access product details on-demand - all without digging through endless documents.",
+								icon: faRobot,
+								title: "Let our AI handle the rest",
+								text: "Watch as our AI turns each survey into a unique conversation, asking the perfect follow-up questions.",
 							},
 						].map((step, index) => (
 							<Col lg={4} key={index}>
@@ -146,8 +145,7 @@ const LandingPage = () => {
 							Productsuite AI is designed for everyone
 						</h2>
 						<p className="lead text-muted">
-							Empower your teams with instant access to knowledge, completely
-							free!
+							Use for whatever you want, it's completely free!
 						</p>
 					</div>
 
@@ -156,17 +154,17 @@ const LandingPage = () => {
 							{
 								icon: faUserTie,
 								title: "Product Managers",
-								text: "Share product documentation, feature specs, and roadmaps with your sales and support teams. Create knowledge bots that help teams understand product details instantly.",
+								text: "Need to understand why users love (or leave) your product? Create surveys which will tell you exactly why.",
 							},
 							{
-								icon: faArrowTrendUp,
-								title: "Sales Teams",
-								text: "Access product information, pricing details, and competitive analysis instantly. Get accurate answers to customer questions without digging through multiple documents.",
+								icon: faPaintBrush,
+								title: "Designers",
+								text: "Tired of shallow usability feedback? Create surveys that adapt to each user's experience, revealing the real story behind every interaction.",
 							},
 							{
-								icon: faHeadset,
-								title: "Customer Support",
-								text: "Resolve customer queries faster with instant access to product knowledge. Let AI help you find the right information from documentation and support materials.",
+								icon: faRocket,
+								title: "Founders",
+								text: "Making big decisions? Stop guessing what your market wants. Let AI turn every survey into a meaningful customer conversation that shapes your strategy.",
 							},
 						].map((feature, index) => (
 							<Col lg={4} key={index}>
@@ -214,11 +212,10 @@ const LandingPage = () => {
 						<Col lg={12}>
 							<h5 className="fw-bold mb-4">Productsuite.ai</h5>
 							<p className=" text-white">
-								Transform your PDFs into intelligent knowledge bots that teams
-								can interact with. Perfect for product managers sharing
-								documentation with sales and support teams. Get instant answers,
-								improve team efficiency, and make knowledge accessible to
-								everyone.
+								Boost engagement and response rates with AI-personalized
+								surveys. Tailor questions to individual preferences for relevant
+								insights and actionable data. Enjoy dynamic, user-friendly
+								surveys that adapt in real-time.
 							</p>
 						</Col>
 					</Row>
@@ -228,4 +225,4 @@ const LandingPage = () => {
 	);
 };
 
-export default LandingPage;
+export default SurveyLandingPage;

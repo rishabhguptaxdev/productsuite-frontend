@@ -89,6 +89,19 @@ function Dashboard() {
 					<ul>
 						<li
 							className={
+								useSelector((state) => state.dashboard.showBotDashboard)
+									? "active"
+									: ""
+							}
+							onClick={() => {
+								dispatch(activateBotComponent());
+							}}
+						>
+							<FontAwesomeIcon icon={faRobot} />
+							<span>AI Bot</span>
+						</li>
+						<li
+							className={
 								useSelector((state) => state.dashboard.showCreateSurvey)
 									? "active"
 									: ""
@@ -108,19 +121,6 @@ function Dashboard() {
 						>
 							<FontAwesomeIcon icon={faSquarePollVertical} />
 							<span>My Surveys</span>
-						</li>
-						<li
-							className={
-								useSelector((state) => state.dashboard.showBotDashboard)
-									? "active"
-									: ""
-							}
-							onClick={() => {
-								dispatch(activateBotComponent());
-							}}
-						>
-							<FontAwesomeIcon icon={faRobot} />
-							<span>AI Bot</span>
 						</li>
 					</ul>
 				</nav>

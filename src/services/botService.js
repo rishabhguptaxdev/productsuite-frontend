@@ -81,4 +81,12 @@ export const botService = {
 			}
 		);
 	},
+
+	deleteBot: async (botId) => {
+		return await axios.delete(`${backendbaseurl}/bots/${botId}`, {
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem("token")}`,
+			},
+		});
+	},
 };

@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const dashboardSlice = createSlice({
 	name: "dashboard",
 	initialState: {
-		showCreateSurvey: true,
+		showBotDashboard: true,
+		showCreateSurvey: false,
 		showSurveyCreated: false,
 		showMySurveys: false,
 		showViewResponse: false,

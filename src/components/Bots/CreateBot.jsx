@@ -84,6 +84,7 @@ const CreateBot = () => {
 				<TextField
 					fullWidth
 					variant="outlined"
+					multiline
 					value={name}
 					onChange={(e) => setName(e.target.value)}
 					required
@@ -150,7 +151,7 @@ const CreateBot = () => {
 						Drag and drop files here or click to browse
 					</Typography>
 					<Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-						Supports PDFs, PPTs, and Videos
+						Supports PDFs, max 50 mb is allowed
 					</Typography>
 					<Button
 						variant="outlined"

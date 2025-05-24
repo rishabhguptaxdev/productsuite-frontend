@@ -21,6 +21,7 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Tooltip from "@mui/material/Tooltip";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const BotList = () => {
 	const dispatch = useDispatch();
@@ -53,6 +54,18 @@ const BotList = () => {
 			setSnackbarOpen(true);
 		} catch (err) {
 			setSnackbarMsg("Failed to update shareable status");
+			setSnackbarOpen(true);
+		}
+	};
+
+	const handleDeleteBot = async (botId) => {
+		try {
+			await botService.deleteBot(botId);
+			dispatch(setBots(bots.filter((bot) => bot._id !== botId)));
+			setSnackbarMsg("Bot deleted successfully");
+			setSnackbarOpen(true);
+		} catch (err) {
+			setSnackbarMsg("Failed to delete bot");
 			setSnackbarOpen(true);
 		}
 	};
@@ -199,7 +212,7 @@ const BotList = () => {
 								<Box
 									sx={{
 										display: "grid",
-										gridTemplateColumns: "1fr 1fr 1fr",
+										gridTemplateColumns: "4fr 1fr 1fr 1fr",
 										alignItems: "center",
 										gap: 2,
 										mt: 2,
@@ -212,14 +225,15 @@ const BotList = () => {
 										disabled={bot.status !== "ready"}
 										sx={{
 											textTransform: "none",
-											borderRadius: "20px",
-											width: "100%",
+											borderRadius: "5px",
+											width: "50%",
 										}}
 									>
 										Chat
 									</Button>
 
 									<Tooltip title="Make bot shareable">
+										{bot.isShareable ? "Public" : "Private"}
 										<Switch
 											checked={bot.isShareable}
 											onChange={() => handleToggleShareable(bot)}
@@ -245,6 +259,23 @@ const BotList = () => {
 											disabled={bot.status !== "ready" || !bot.isShareable}
 										>
 											<ContentCopyIcon fontSize="small" />
+										</IconButton>
+									</Tooltip>
+
+									<Tooltip title="Delete Bot">
+										<IconButton
+											onClick={() => handleDeleteBot(bot._id)}
+											size="small"
+											color="error"
+											sx={{
+												border: "1px solid",
+												borderColor: "divider",
+												borderRadius: 1,
+												padding: "6px",
+												mx: "auto",
+											}}
+										>
+											<DeleteIcon fontSize="small" />
 										</IconButton>
 									</Tooltip>
 								</Box>
